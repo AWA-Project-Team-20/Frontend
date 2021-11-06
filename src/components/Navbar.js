@@ -7,7 +7,8 @@ import { Link as LinkR } from 'react-router-dom'
 const Nav = styled.nav`
     display: flex;
     position: sticky;
-    background: black;
+    background: rgb(2,0,36);
+background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 0%, rgba(0,0,0,1) 100%);
     height: 80px;
     justify-content: center;
     align-items: center;
@@ -54,6 +55,19 @@ const NavLinks = styled(LinkR)`
     padding: 0 16px;
     height: 100%;
     cursor: pointer;
+    font-family: Verdana, Geneva, sans-serif;
+    letter-spacing: 1px;
+    font-variant: small-caps;
+    font-style: italic;
+
+
+
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        color: black;
+        font-size: 150%;
+
+    }
 `;
 
 const SignButtonContainer = styled.nav`
@@ -89,7 +103,7 @@ const Navbar = () => {
                             <NavLinks to="/restaurants">Restaurants</NavLinks>
                         </NavItem>
                         <NavItem>
-                            <NavLinks to="/about">About</NavLinks>
+                            <NavLinks to="/about">About Us</NavLinks>
                         </NavItem>
                         <NavItem>
                             <NavLinks to="/account">Account</NavLinks>
