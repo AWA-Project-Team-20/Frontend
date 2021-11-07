@@ -1,17 +1,10 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+import PopularRestaurants from '../components/PopularRestaurants'
 
 const Home = () => {
     return (
-        <>
-            <Navbar />       
-            <Footer />      
-        </>
-
-       
+        <PopularRestaurants />    
     )
-
 }
 
 export default Home
