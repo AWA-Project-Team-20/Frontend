@@ -1,8 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-// import {FaBars} from 'react-icons/fa'
-import { Link as LinkR } from 'react-router-dom'
-// import { Link as LinkS } from 'react-scroll'
 
 const Ftr = styled.footer`
 display: flex;
@@ -14,7 +11,7 @@ width: 100%;
 justify-content: center;
 align-items: center;
 font-size: 16px;
-position: absolute;
+/* position: absolute; */
 bottom: 0px;
 font-family: Verdana, Geneva, sans-serif;
 letter-spacing: 1px;
@@ -29,7 +26,6 @@ align-items: center;
 height: 100px;
 width: 100%;
 max-width: 1200px;
-font-family: 
 `;
 
 const FooterContent = styled.div`

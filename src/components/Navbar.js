@@ -1,18 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
-// import {FaBars} from 'react-icons/fa'
-import { Link as LinkR } from 'react-router-dom'
-// import { Link as LinkS } from 'react-scroll'
+import { FaPizzaSlice } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 const Nav = styled.nav`
     display: flex;
     position: sticky;
     background: rgb(2,0,36);
-background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 0%, rgba(0,0,0,1) 100%);
+    background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 0%, rgba(0,0,0,1) 100%);
     height: 80px;
     justify-content: center;
     align-items: center;
     font-size: 16px;
+    top: 0;
+    z-index: 1;
 `;
 
 const NavbarContainer = styled.div`
@@ -24,7 +25,7 @@ const NavbarContainer = styled.div`
     max-width: 1200px;
 `;
 
-const NavLogo = styled(LinkR)`
+const NavLogo = styled(Link)`
     display: flex;
     color: white;
     justify-self: flex-start;
@@ -34,6 +35,10 @@ const NavLogo = styled(LinkR)`
     margin-left: 25px;
     font-weight: bold;
     text-decoration: none;
+`;
+
+const Logo = styled(FaPizzaSlice)`
+    margin-right: 10px;
 `;
 
 const NavMenu = styled.ul`
@@ -47,7 +52,7 @@ const NavItem = styled.li`
     height: 80px;
 `;
 
-const NavLinks = styled(LinkR)`
+const NavLinks = styled(Link)`
     display: flex;
     color: white;
     align-items: center;
@@ -60,13 +65,10 @@ const NavLinks = styled(LinkR)`
     font-variant: small-caps;
     font-style: italic;
 
-
-
     &:hover {
         transition: all 0.2s ease-in-out;
         color: black;
         font-size: 150%;
-
     }
 `;
 
@@ -94,27 +96,28 @@ const SignButton = styled.button`
 
 const Navbar = () => {
     return (
-        <>
-            <Nav>
-                <NavbarContainer>
-                    <NavLogo to="/" >FoodApp</NavLogo>
-                    <NavMenu>
-                        <NavItem>
-                            <NavLinks to="/restaurants">Restaurants</NavLinks>
-                        </NavItem>
-                        <NavItem>
-                            <NavLinks to="/about">About Us</NavLinks>
-                        </NavItem>
-                        <NavItem>
-                            <NavLinks to="/account">Account</NavLinks>
-                        </NavItem>
-                    </NavMenu>
-                    <SignButtonContainer>
-                        <SignButton>Sign In/Up</SignButton>
-                    </SignButtonContainer>
-                </NavbarContainer>
-            </Nav>
-        </>
+        <Nav>
+            <NavbarContainer>
+                <NavLogo to="/" >
+                    <Logo />
+                    FoodApp
+                </NavLogo>
+                <NavMenu>
+                    <NavItem>
+                        <NavLinks to="/restaurants">Restaurants</NavLinks>
+                    </NavItem>
+                    <NavItem>
+                        <NavLinks to="/about">About Us</NavLinks>
+                    </NavItem>
+                    <NavItem>
+                        <NavLinks to="/account">Account</NavLinks>
+                    </NavItem>
+                </NavMenu>
+                <SignButtonContainer>
+                    <SignButton>Sign In/Up</SignButton>
+                </SignButtonContainer>
+            </NavbarContainer>
+    </Nav>
     )
 }
 
