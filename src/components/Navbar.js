@@ -82,7 +82,7 @@ const SignButton = styled.button`
     background: rgb(0, 157, 224);
     white-space: nowrap;
     padding: 10px 22px;
-    color: black;
+    color: white;
     font-size: 15px;
     border: none;
     cursor: pointer;
@@ -90,11 +90,11 @@ const SignButton = styled.button`
 
     &:hover {
         transition: all 0.2s ease-in-out;
-        background: white;
+        filter: brightness(1.2);
     }
 `;
 
-const Navbar = () => {
+const Navbar = ({ openModal }) => {
     return (
         <Nav>
             <NavbarContainer>
@@ -114,7 +114,7 @@ const Navbar = () => {
                     </NavItem>
                 </NavMenu>
                 <SignButtonContainer>
-                    <SignButton>Sign In/Up</SignButton>
+                    <SignButton onClick={openModal}>Sign In/Up</SignButton>
                 </SignButtonContainer>
             </NavbarContainer>
     </Nav>
