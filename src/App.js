@@ -4,10 +4,11 @@ import { GlobalStyle } from './GlobalStyles';
 import Navbar from './components/Navbar'
 import Modal from './components/account/Modal';
 import Footer from './components/Footer'
-import Home from './pages/home';
+import HomePage from './pages/homePage';
+import RestaurantsPage from './pages/restaurantsPage';
 
 function App() {
-  const [showModal, setShowModal] = useState(false)
+  const [ showModal, setShowModal ] = useState(false)
 
   return (
     <Router>
@@ -15,7 +16,8 @@ function App() {
       <Modal showModal={showModal} setShowModal={setShowModal} />
       <Navbar openModal={() => setShowModal(!showModal)} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/restaurants" element={<RestaurantsPage />} />
       </Routes>
       <Footer />
     </Router>
