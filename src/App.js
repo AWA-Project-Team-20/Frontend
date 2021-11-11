@@ -5,6 +5,9 @@ import Navbar from './components/Navbar'
 import Modal from './components/account/Modal';
 import Footer from './components/Footer'
 import Home from './pages/home';
+import About from './pages/about';
+
+
 
 function App() {
   const [showModal, setShowModal] = useState(false)
@@ -16,6 +19,7 @@ function App() {
       <Navbar openModal={() => setShowModal(!showModal)} />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
       </Routes>
       <Footer />
     </Router>

@@ -11,7 +11,7 @@ width: 100%;
 justify-content: center;
 align-items: center;
 font-size: 16px;
-/* position: absolute; */
+
 bottom: 0px;
 font-family: Verdana, Geneva, sans-serif;
 letter-spacing: 1px;
