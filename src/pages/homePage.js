@@ -1,10 +1,10 @@
 import React from 'react'
 import PopularRestaurants from '../components/PopularRestaurants'
 
-const Home = () => {
+const HomePage = () => {
     return (
         <PopularRestaurants />    
     )
 }
 
-export default Home
+export default HomePage
