@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Restaurant from './Restaurant';
+import Searchbar from './Searchbar';
 import Filter from './Filter';
 import restaurantService from '../services/restaurants'
 
@@ -13,6 +14,15 @@ const RestaurantsContainer = styled.div`
 
 const Header = styled.h1`
     text-align: center;
+    width: 90%;
+    border-bottom: 2px solid lightgray;
+`;
+
+const FilterContainer = styled.div`
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    align-items: center;
 `;
 
 const RestaurantsWrapper = styled.div`
@@ -25,7 +35,8 @@ const RestaurantsWrapper = styled.div`
 
 const Restaurants = () => {
     const [ restaurants, setRestaurants ] = useState([])
-    const [ newFilter, setNewFilter ] = useState("")
+    const [ newSearch, setNewSearch ] = useState("")
+    const [ newSort, setNewSort ] = useState("Sort by")
 
     useEffect(() => {
         restaurantService
@@ -34,21 +45,41 @@ const Restaurants = () => {
           setRestaurants(initialRestaurants)
         })
         .catch(error => console.log(error))
-      }, [])
-
-
-    if(newFilter !== '') {
-        console.log(restaurants)
-        // restaurants = restaurants.filter(r => r.name.toLowerCase().includes(newFilter.toLowerCase()))
-    }
+      }, []);
+    
+    let restaurantsToShow = restaurants
+    
+    if(newSearch !== "" || newSort !== "Sort by") {
+        if(newSort === "High-Low") {
+            let sortedRestaurants = [].concat(restaurants)
+            restaurantsToShow = sortedRestaurants.sort((a, b) => (a.pricelvl < b.pricelvl) ? 1 : -1)
+            if(newSearch !== "") {
+                restaurantsToShow = restaurants.filter(r => r.name.toLowerCase().includes(newSearch.toLowerCase()))
+            }
+        }
+        else if(newSort === "Low-High") {
+            let sortedRestaurants = [].concat(restaurants)
+            restaurantsToShow = sortedRestaurants.sort((a, b) => (a.pricelvl > b.pricelvl) ? 1 : -1)
+            if(newSearch !== "") {
+                restaurantsToShow = restaurants.filter(r => r.name.toLowerCase().includes(newSearch.toLowerCase()))
+            }
+        }
+        else {
+            restaurantsToShow = restaurants.filter(r => r.name.toLowerCase().includes(newSearch.toLowerCase()))
+        }
+    }  
 
     return (
         <RestaurantsContainer>
             <Header>Restaurants</Header>
-            <Filter newFilter={newFilter} setNewFilter={setNewFilter} />
+            <FilterContainer>
+                <Searchbar newSearch={newSearch} setNewSearch={setNewSearch} />
+                <Filter setNewSort={setNewSort} />
+            </FilterContainer>
             <RestaurantsWrapper>
-                {restaurants.map(r=> <Restaurant key={r.id} name={r.name}
-                  src={r.img} alt={r.alt} description={r.description} path={r.path} />
+                {restaurantsToShow.map(r =>
+                    <Restaurant key={r.id} name={r.name} src={r.img} 
+                    alt={r.alt} description={r.description} pricelvl={r.pricelvl} path={r.path} />
                 )}
             </RestaurantsWrapper>
     </RestaurantsContainer>

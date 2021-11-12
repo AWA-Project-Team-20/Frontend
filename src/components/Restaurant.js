@@ -23,7 +23,8 @@ const RestaurantFigure = styled.figure`
 
 const RestaurantImage = styled.img`
     display: block;
-    height: 300px;
+    width: 480px;
+    height: 270px;
     transition: all 0.2s linear;
 
     &:hover {
@@ -36,13 +37,22 @@ const RestaurantInfo = styled.div`
     color: black;
 `;
 
-const RestaurantName = styled.h5`
+const RestaurantName = styled.div`
     font-size: 18px;
+    font-weight: 700;
 `;
 
-const RestaurantDesc = styled.h5`
+const RestaurantDesc = styled.div`
     color: darkgray;
+    padding-top: 10px;
     font-size: 14px;
+    margin: 0;
+`;
+
+const RestaurantPricelvl = styled.div`
+    margin-top: 10px;
+    border-top: 2px dashed lightgray;
+    font-weight: 700;
 `;
 
 const Restaurant = (props) => {
@@ -55,6 +65,7 @@ const Restaurant = (props) => {
                 <RestaurantInfo>
                     <RestaurantName>{props.name}</RestaurantName>
                     <RestaurantDesc>{props.description}</RestaurantDesc>
+                    <RestaurantPricelvl>{props.pricelvl}</RestaurantPricelvl>
                 </RestaurantInfo>
             </RestaurantLink>
         </RestaurantItem>
