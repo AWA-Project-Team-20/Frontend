@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const BoxContainer = styled.div`
@@ -15,16 +15,22 @@ const HeaderContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-bottom: 15px;
 `;
 
 const Header = styled.h3`
   margin: 0;
   font-size: 28px;
-
 `;
 
-const Info = styled.p`
-  font-size: 22px;
+const Error = styled.div`
+  padding: 10px 60px;
+  border: 2px inset black;
+  border-radius: 10px;
+  background-color: rgba(255, 0, 0, 0.3);
+  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
+  font-size: 20px;
+  font-weight: 700;
 `;
 
 const FormContainer = styled.form`
@@ -32,14 +38,35 @@ const FormContainer = styled.form`
   flex-direction: column;
   width: 80%;
   align-items: center;
-  box-shadow: 0px 3px 12.5px rgba(15, 15, 15, 0.19);
   margin-bottom: 20px;
 `;
 
-const Input = styled.input`
+const CheckboxContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+`;
+
+const Info = styled.div`
+  margin-top: 15px;
+  font-size: 20px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+`;
+
+const CheckboxLabel = styled.label`
+  font-size: 18px;
+  cursor: pointer;
+  user-select: none;
+`;
+
+const Checkbox = styled.input`
+`;
+
+const TextInput = styled.input`
   width: 100%;
   height: 42px;
   padding: 10px 10px;
+  margin-bottom: 3px;
   border-radius: 10px;
   transition: all 200ms ease-in-out;
   font-size: 18px;
@@ -54,11 +81,12 @@ const Input = styled.input`
 `;
 
 const SubmitButton = styled.button`
-  width: 80%;
+  width: 100%;
   border-radius: 100px;
   background: rgb(0, 157, 224);
   white-space: nowrap;
-  padding: 15px 22px;
+  padding: 15px 0px;
+  margin-top: 5px;
   color: white;
   font-size: 16px;
   font-weight: 700;
@@ -72,16 +100,16 @@ const SubmitButton = styled.button`
   }
 `;
 
-const SignUpContainer = styled.div`
+const SignInContainer = styled.div`
   display: flex;
   width: 90%;
   justify-content: center;
   border-top: 1px solid lightgray;
-  margin-top: 15px;
 
   h2 {
     font-size: 16px;
     color: rgb(200, 200, 200);
+    cursor: default;
   }
 
   button {
@@ -91,27 +119,64 @@ const SignUpContainer = styled.div`
     margin-left: 5px;
     border: none;
     background-color: white;
-    cursor: pointer;    
+    cursor: pointer; 
   }
 `;
 
-const SignUpForm = ({ showSignUp, setShowSignUp }) => {
+const SignUpForm = (props) => {
+  const [ consumer, setConsumer ] = useState(false)
+  const [ consumerRequired, setConsumerRequired ] = useState(true)
+  const [ manager, setManager ] = useState(false)
+  const [ managerRequired, setManagerRequired ] = useState(true)
+
+  const handleConsumer = () => {
+    if(manager) {
+      setManager(false)
+    }
+    setConsumer(!consumer)
+    props.setAccountType("consumer")
+    setConsumerRequired(true)
+    setManagerRequired(false)
+  }
+
+  const handleManager = () => {
+    if(consumer) {
+      setConsumer(false)
+    }
+    setManager(!manager)
+    props.setAccountType("manager")
+    setConsumerRequired(false)
+    setManagerRequired(true)
+  }
+
+
   return (
     <BoxContainer>
       <HeaderContainer>
         <Header>Create an account</Header>
-        <Info>Please sign-up to continue</Info>
+        {props.error && <Error>{props.error}</Error>}
       </HeaderContainer>
-      <FormContainer>
-        <Input type="email" placeholder="Email" required />
-        <Input type="password" placeholder="Password" required />
-        <Input type="password" placeholder="Confirm Password" required />
+      <FormContainer onSubmit={props.addNewUser} >
+        <CheckboxContainer>
+          <Info>Account type:</Info>
+            <CheckboxLabel> 
+              <Checkbox type="checkbox" checked={consumer} onChange={handleConsumer} required={consumerRequired} />
+              Consumer
+            </CheckboxLabel>
+            <CheckboxLabel>
+              <Checkbox type="checkbox" checked={manager} onChange={handleManager} required={managerRequired} />
+              Restaurant manager
+            </CheckboxLabel>
+          </CheckboxContainer>
+        <TextInput type="email" placeholder="Email" required={true} value={props.email} onChange={(e) => props.setEmail(e.target.value)} />
+        <TextInput type="password" placeholder="Password" required={true} value={props.password} onChange={(e) => props.setPassword(e.target.value)} />
+        <TextInput type="password" placeholder="Confirm Password" required={true} value={props.passwordConfirm} onChange={(e) => props.setPasswordConfirm(e.target.value)} />
+        <SubmitButton type="submit">Sign Up</SubmitButton>
       </FormContainer>
-      <SubmitButton type="submit">Sign Up</SubmitButton>
-      <SignUpContainer>
+      <SignInContainer>
         <h2>Already have an account?</h2>
-        <button onClick={() => setShowSignUp(!showSignUp)}>Sign In</button>
-      </SignUpContainer>
+        <button onClick={() => props.setShowSignUp(!props.showSignUp)}>Sign In</button>
+      </SignInContainer>
     </BoxContainer>
   )
 }

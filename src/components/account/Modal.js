@@ -17,7 +17,7 @@ const Background = styled.div`
 
 const FormContainer = styled.div`
     width: 480px;
-    height: 580px;
+    height: 650px;
     background: white;
     color: black;
     position: relative;
@@ -44,7 +44,12 @@ const CloseModalButton = styled(MdClose)`
 
 const Modal = ({ showModal, setShowModal }) => {
     const modalRef = useRef()
-    const [showSignUp, setShowSignUp] = useState(false)
+    const [ showSignUp, setShowSignUp ] = useState(false)
+    const [ email, setEmail ] = useState('')
+    const [ password, setPassword ] = useState('')
+    const [ passwordConfirm, setPasswordConfirm ] = useState('')
+    const [ accountType, setAccountType ] = useState('')
+    const [ error, setError ] = useState('')
 
     const animation = useSpring({
         config: {
@@ -56,28 +61,71 @@ const Modal = ({ showModal, setShowModal }) => {
 
     const closeModal = (e) => {
         if(modalRef.current === e.target) {
-            setShowModal(false)
-            setShowSignUp(false)
+            handleModalClose()
         }
+    }
+
+    const handleModalClose = () => {
+        setShowModal(false)
+        setShowSignUp(false)
+        setEmail('')
+        setPassword('')
+        setPasswordConfirm('')
+        setAccountType('')
+        setError('')
+    }
+
+    const login = (event) => {
+        event.preventDefault()
+
+        const userObject = {
+            email: email,
+            password: password
+        }
+        console.log(userObject)
+        handleModalClose()
+    }
+
+    const addNewUser = (event) => {
+        event.preventDefault()
+
+        if(password !== passwordConfirm) {
+            return setError("Passwords do not match!")
+        }
+
+        const userObject = {
+            email: email,
+            password: password,
+            passwordConfirm: passwordConfirm,
+            accountType: accountType
+        }
+        console.log(userObject)
+        handleModalClose()
     }
 
     return (
         <>
-            {showModal ? (
+            {showModal && (
                 <Background ref={modalRef} onClick={closeModal}>
                     <animated.div style={animation}>
                     <FormContainer>
                         <ModalContent>
                            {showSignUp 
-                           ? <SignUpForm showSignUp={showSignUp} setShowSignUp={setShowSignUp} /> 
-                           : <SignInForm showSignUp={showSignUp} setShowSignUp={setShowSignUp} /> }
+                           ? <SignUpForm showSignUp={showSignUp} setShowSignUp={setShowSignUp} addNewUser={addNewUser}
+                                email={email} setEmail={setEmail} password={password} setPassword={setPassword}
+                                passwordConfirm={passwordConfirm} setPasswordConfirm={setPasswordConfirm} 
+                                setAccountType={setAccountType} error={error}
+                             /> 
+                           : <SignInForm showSignUp={showSignUp} setShowSignUp={setShowSignUp} login={login}
+                                email={email} setEmail={setEmail} password={password} setPassword={setPassword}
+                             /> 
+                            }
                        </ModalContent>
-                       <CloseModalButton onClick={() => setShowModal(false)} />
+                       <CloseModalButton onClick={handleModalClose} />
                     </FormContainer>
                     </animated.div>
                 </Background> 
-            ) :null}
-            
+            )}
         </>
     )
 }
