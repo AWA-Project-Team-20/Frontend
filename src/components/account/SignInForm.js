@@ -7,7 +7,7 @@ const BoxContainer = styled.div`
   height: 100%;
   flex-direction: column;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 90px;
 `;
 
 const HeaderContainer = styled.div`
@@ -32,14 +32,14 @@ const FormContainer = styled.form`
   flex-direction: column;
   width: 80%;
   align-items: center;
-  box-shadow: 0px 3px 12.5px rgba(15, 15, 15, 0.19);
   margin-bottom: 20px;
 `;
 
-const Input = styled.input`
+const TextInput = styled.input`
   width: 100%;
   height: 42px;
   padding: 10px 10px;
+  margin-bottom: 3px;
   border-radius: 10px;
   transition: all 200ms ease-in-out;
   font-size: 18px;
@@ -54,11 +54,12 @@ const Input = styled.input`
 `;
 
 const SubmitButton = styled.button`
-  width: 80%;
+  width: 100%;
   border-radius: 100px;
   background: rgb(0, 157, 224);
   white-space: nowrap;
-  padding: 15px 22px;
+  padding: 15px 0px;
+  margin-top: 5px;
   color: white;
   font-size: 16px;
   font-weight: 700;
@@ -77,11 +78,11 @@ const SignUpContainer = styled.div`
   width: 90%;
   justify-content: center;
   border-top: 1px solid lightgray;
-  margin-top: 15px;
 
   h2 {
     font-size: 16px;
     color: rgb(200, 200, 200);
+    cursor: default;
   }
 
   button {
@@ -95,21 +96,21 @@ const SignUpContainer = styled.div`
   }
 `;
 
-const SignInForm = ({ showSignUp, setShowSignUp }) => {
+const SignInForm = (props) => {
   return (
     <BoxContainer>
       <HeaderContainer>
         <Header>Welcome back!</Header>
         <Info>Please sign-in to continue</Info>
       </HeaderContainer>
-      <FormContainer>
-        <Input type="email" placeholder="Email" />
-        <Input type="password" placeholder="Password" />
+      <FormContainer onSubmit={props.login}>
+        <TextInput type="email" placeholder="Email" required={true} value={props.email} onChange={(e) => {props.setEmail(e.target.value)}} />
+        <TextInput type="password" placeholder="Password" required={true} value={props.password} onChange={(e) => props.setPassword(e.target.value)} />
+        <SubmitButton type="submit">Sign In</SubmitButton>
       </FormContainer>
-      <SubmitButton type="submit">Sign In</SubmitButton>
       <SignUpContainer>
         <h2>Don't have an account?</h2>
-        <button onClick={() => setShowSignUp(!showSignUp)}>Sign Up</button>
+        <button onClick={() => props.setShowSignUp(!props.showSignUp)}>Sign Up</button>
       </SignUpContainer>
     </BoxContainer>
   )
