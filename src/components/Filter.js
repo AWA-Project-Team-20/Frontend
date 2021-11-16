@@ -14,7 +14,6 @@ const DropdownHeader = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: relative;
     width: 400px;
     height: 40px;
     padding: 10px 10px;
@@ -37,7 +36,7 @@ const DropdownLogo = styled(FaCaretDown)`
 const DropdownList = styled.ul`
     position: absolute;
     width: 390px;
-    top: 270px;
+    top: 280px;
     padding: 15px;
     background: white;
     box-shadow: 3px 3px 10px 6px rgba(0, 0, 0, 0.09);
