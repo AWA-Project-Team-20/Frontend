@@ -16,6 +16,7 @@ const Header = styled.h1`
     text-align: center;
     width: 90%;
     border-bottom: 2px solid lightgray;
+    padding-bottom: 15px;
 `;
 
 const FilterContainer = styled.div`
@@ -79,7 +80,7 @@ const Restaurants = () => {
             <RestaurantsWrapper>
                 {restaurantsToShow.map(r =>
                     <Restaurant key={r.id} name={r.name} src={r.img} 
-                    alt={r.alt} description={r.description} pricelvl={r.pricelvl} path={r.path} />
+                    alt={r.alt} type={r.type} pricelvl={r.pricelvl} location={r.location} path={r.path} />
                 )}
             </RestaurantsWrapper>
     </RestaurantsContainer>
