@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Restaurant from './Restaurant'
+import restaurantService from '../services/restaurants'
 
 const RestaurantsContainer = styled.div`
     display: flex;
@@ -11,6 +12,9 @@ const RestaurantsContainer = styled.div`
 
 const Header = styled.h1`
     text-align: center;
+    width: 90%;
+    border-bottom: 2px solid lightgray;
+    padding-bottom: 15px;
 `;
 
 const RestaurantsWrapper = styled.div`
@@ -22,38 +26,45 @@ const RestaurantsWrapper = styled.div`
 `;
 
 const PopularRestaurants = () => {
+    const [ restaurants, setRestaurants ] = useState([])
+
+    useEffect(() => {
+        restaurantService
+        .getAll()
+        .then(initialRestaurants => {
+            setRestaurants(initialRestaurants)
+        })
+        .catch(error => console.log(error))
+      }, []); 
+
+    const shuffle = (arr) => {
+        let i = arr.length
+        let j = 0
+        let temp
+
+        while (i--) {
+            j = Math.floor(Math.random() * (i+1))
+            temp = arr[i]
+            arr[i] = arr[j]
+            arr[j] = temp
+        }
+        return arr
+      }
+
+    let idsOfRestaurants = []
+    restaurants.forEach(r => idsOfRestaurants.push(r.id))
+    let randomIds = shuffle(idsOfRestaurants)
+    randomIds.splice(5, idsOfRestaurants.length - 6)
+    let randomRestaurants = restaurants.filter(r => randomIds.includes(r.id))
+
     return (
         <RestaurantsContainer>
-            <Header>Popular restaurants</Header>
+            <Header>Check out these popular restaurants!</Header>
                 <RestaurantsWrapper>
-                    <Restaurant 
-                    src="https://imageproxy.wolt.com/venue/5e83518df638003969216699/6207fc18-b313-11eb-8480-1acefe1e773f_mcd_wolt_etusivu_1010x544.png"
-                    alt="Restaurant pic"
-                    name="McDonald's"
-                    description="I'm lovin' it"
-                    path="/"
-                    />
-                    <Restaurant 
-                    src="https://imageproxy.wolt.com/venue/5ccc20076f16c13303ca12e9/68d3356e-80bc-11eb-8b35-2abc3ccdb078_uusi_feedikuva__1_.jpg"
-                    alt="Restaurant pic"
-                    name="Friends & Brgrs"
-                    description="Burgers"
-                    path="/"
-                    />                    
-                    <Restaurant 
-                    src="https://imageproxy.wolt.com/venue/60cc638f5e0beb66e1fb1017/60eda2e6-d015-11eb-8f4f-fa2337d76966_6a17c76c_2ff6_11eb_a354_ba6ced6cc1dc_kotibox_valikoima_1920x1080_wolt_2020.png.jpeg"
-                    alt="Restaurant pic"
-                    name="Rax"
-                    description="Pizza, Wings etc."
-                    path="/"
-                    />
-                    <Restaurant 
-                    src="https://imageproxy.wolt.com/venue/60b497d531bec3f50864c17c/e0a1d39a-c2aa-11eb-b6f0-8e7f70c7c49f_shutterstock_1060535249.jpg"
-                    alt="Restaurant pic"
-                    name="Pizzeria"
-                    description="Classic pizzeria"
-                    path="/"
-                    />
+                    {randomRestaurants.map(r =>
+                        <Restaurant key={r.id} name={r.name} src={r.img}
+                        alt={r.alt} type={r.type} pricelvl={r.pricelvl} location={r.location} path={r.path} />
+                    )}
                 </RestaurantsWrapper>
         </RestaurantsContainer>
     )

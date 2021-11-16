@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { GoLocation } from 'react-icons/go'
 
 const RestaurantItem = styled.li`
     display: flex;
@@ -32,7 +33,7 @@ const RestaurantImage = styled.img`
     }
 `;
 
-const RestaurantInfo = styled.div`
+const RestaurantContent = styled.div`
     text-align: center;
     color: black;
 `;
@@ -42,17 +43,34 @@ const RestaurantName = styled.div`
     font-weight: 700;
 `;
 
-const RestaurantDesc = styled.div`
+const RestaurantType = styled.div`
     color: darkgray;
     padding-top: 10px;
     font-size: 14px;
     margin: 0;
 `;
 
-const RestaurantPricelvl = styled.div`
+const RestaurantInfo = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-top: 10px;
     border-top: 2px dashed lightgray;
     font-weight: 700;
+    padding: 5px;
+    color: darkgray;
+`;
+
+const RestaurantLogo = styled(GoLocation)`
+    margin-right: 5px;
+`;
+
+const RestaurantLocation = styled.div`
+    width: 50%;
+`;
+
+const RestaurantPricelvl = styled.div`
+    width: 50%;
 `;
 
 const Restaurant = (props) => {
@@ -62,11 +80,16 @@ const Restaurant = (props) => {
                 <RestaurantFigure>
                     <RestaurantImage src={props.src} alt={props.alt}></RestaurantImage>
                 </RestaurantFigure>
-                <RestaurantInfo>
+                <RestaurantContent>
                     <RestaurantName>{props.name}</RestaurantName>
-                    <RestaurantDesc>{props.description}</RestaurantDesc>
-                    <RestaurantPricelvl>{props.pricelvl}</RestaurantPricelvl>
-                </RestaurantInfo>
+                    <RestaurantType>{props.type}</RestaurantType>
+                    <RestaurantInfo>
+                        <RestaurantLocation>
+                            <RestaurantLogo /> {props.location}
+                        </RestaurantLocation>
+                        <RestaurantPricelvl>Price level: {props.pricelvl}</RestaurantPricelvl>
+                    </RestaurantInfo>
+                </RestaurantContent>
             </RestaurantLink>
         </RestaurantItem>
     )
