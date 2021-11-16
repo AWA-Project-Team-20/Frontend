@@ -55,18 +55,24 @@ const Restaurants = () => {
             let sortedRestaurants = [].concat(restaurants)
             restaurantsToShow = sortedRestaurants.sort((a, b) => (a.pricelvl < b.pricelvl) ? 1 : -1)
             if(newSearch !== "") {
-                restaurantsToShow = restaurants.filter(r => r.name.toLowerCase().includes(newSearch.toLowerCase()))
+                restaurantsToShow = restaurants.filter(r => r.name.toLowerCase().includes(newSearch.toLowerCase())
+                                                    || r.type.toLowerCase().includes(newSearch.toLowerCase())
+                                                    || r.location.toLowerCase().includes(newSearch.toLowerCase()))
             }
         }
         else if(newSort === "Low-High") {
             let sortedRestaurants = [].concat(restaurants)
             restaurantsToShow = sortedRestaurants.sort((a, b) => (a.pricelvl > b.pricelvl) ? 1 : -1)
             if(newSearch !== "") {
-                restaurantsToShow = restaurants.filter(r => r.name.toLowerCase().includes(newSearch.toLowerCase()))
+                restaurantsToShow = restaurants.filter(r => r.name.toLowerCase().includes(newSearch.toLowerCase())
+                                                    || r.type.toLowerCase().includes(newSearch.toLowerCase())
+                                                    || r.location.toLowerCase().includes(newSearch.toLowerCase()))
             }
         }
         else {
-            restaurantsToShow = restaurants.filter(r => r.name.toLowerCase().includes(newSearch.toLowerCase()))
+            restaurantsToShow = restaurants.filter(r => r.name.toLowerCase().includes(newSearch.toLowerCase())
+                                                || r.type.toLowerCase().includes(newSearch.toLowerCase())
+                                                || r.location.toLowerCase().includes(newSearch.toLowerCase()))
         }
     }  
 
