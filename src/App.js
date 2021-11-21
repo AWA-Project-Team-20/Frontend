@@ -9,7 +9,7 @@ import RestaurantsPage from './pages/restaurants';
 import RestaurantMenuPage from './pages/restaurantMenu';
 import AboutPage from './pages/about';
 import restaurantService from './services/restaurants'
-
+import Cart from './pages/cart';
 
 function App() {
   const [ showModal, setShowModal ] = useState(false)
@@ -34,6 +34,7 @@ function App() {
         <Route path="/restaurants" element={<RestaurantsPage restaurants={restaurants} />} />
         <Route path="/restaurant/:restaurantId" element={<RestaurantMenuPage restaurants={restaurants} />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/cart" element={<cart />} />
       </Routes>
       <Footer />
     </Router>
