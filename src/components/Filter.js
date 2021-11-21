@@ -69,7 +69,7 @@ const Unsort = styled.li`
     }
 `;
 
-const Filter = ({ setNewSort }) => {
+const Filter = ({ setNewSort, sortingOptions }) => {
     const [ open, setOpen ] = useState(false)
     const [ sort, setSort ] = useState("Sort by")
     const ref = useRef()
@@ -101,8 +101,9 @@ const Filter = ({ setNewSort }) => {
             </DropdownHeader>
             {open &&
                 <DropdownList>
-                    <ListItem onClick={() => handleSorting("High-Low")} >Price: High-Low</ListItem>
-                    <ListItem onClick={() => handleSorting("Low-High")} >Price: Low-High</ListItem>
+                    {sortingOptions.map((o, idx) => 
+                        <ListItem key={idx} onClick={() => handleSorting(o)}>{o}</ListItem>
+                    )}
                     <Unsort onClick={() => handleSorting("Sort by")} >Unsort</Unsort>
                 </DropdownList>
             }

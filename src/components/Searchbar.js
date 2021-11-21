@@ -36,11 +36,11 @@ const Input = styled.input`
 
 `;
 
-const Searchbar = ({ newSearch, setNewSearch }) => {
+const Searchbar = ({ newSearch, setNewSearch, placeholder }) => {
     return (
         <SearchBar>
             <SearchLogo /> 
-            <Input value={newSearch} placeholder={"Search"} onChange={(e) => setNewSearch(e.target.value)} />
+            <Input value={newSearch} placeholder={placeholder} onChange={(e) => setNewSearch(e.target.value)} />
         </SearchBar>
     )
 }
