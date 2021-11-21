@@ -94,6 +94,32 @@ const SignButton = styled.button`
     }
 `;
 
+const CartButtonContainer = styled.nav`
+    display: flex;  
+    align-items: center;
+    `;
+
+const CartButton = styled.button`
+border-radius: 30px;
+background: rgb(0, 157, 224);
+padding: 10px 22px;
+color: white;
+font-size: 15px;
+border: none;
+cursor: pointer;
+transition: all 0.2s ease-in-out;
+
+
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        filter: brightness(1.2);
+
+
+    }
+
+`
+
+
 const Navbar = ({ openModal }) => {
     return (
         <Nav>
@@ -112,10 +138,15 @@ const Navbar = ({ openModal }) => {
                     <NavItem>
                         <NavLinks to="/account">Account</NavLinks>
                     </NavItem>
+                    <NavItem>
+                        <NavLinks to="/cart">Cart</NavLinks>
+                    </NavItem>
                 </NavMenu>
                 <SignButtonContainer>
                     <SignButton onClick={openModal}>Sign In/Up</SignButton>
                 </SignButtonContainer>
+            
+                
             </NavbarContainer>
     </Nav>
     )
