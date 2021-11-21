@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import Restaurant from './Restaurant'
-import restaurantService from '../services/restaurants'
+import Restaurant from '../components/Restaurant'
 
 const RestaurantsContainer = styled.div`
     display: flex;
@@ -25,18 +24,7 @@ const RestaurantsWrapper = styled.div`
     margin-bottom: 50px;
 `;
 
-const PopularRestaurants = () => {
-    const [ restaurants, setRestaurants ] = useState([])
-
-    useEffect(() => {
-        restaurantService
-        .getAll()
-        .then(initialRestaurants => {
-            setRestaurants(initialRestaurants)
-        })
-        .catch(error => console.log(error))
-      }, []); 
-
+const HomePage = ({ restaurants }) => {
     const shuffle = (arr) => {
         let i = arr.length
         let j = 0
@@ -49,7 +37,7 @@ const PopularRestaurants = () => {
             arr[j] = temp
         }
         return arr
-      }
+    }
 
     let idsOfRestaurants = []
     restaurants.forEach(r => idsOfRestaurants.push(r.id))
@@ -66,8 +54,8 @@ const PopularRestaurants = () => {
                         alt={r.alt} type={r.type} pricelvl={r.pricelvl} location={r.location} path={r.path} />
                     )}
                 </RestaurantsWrapper>
-        </RestaurantsContainer>
+        </RestaurantsContainer>   
     )
 }
 
-export default PopularRestaurants
+export default HomePage
