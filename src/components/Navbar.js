@@ -49,7 +49,8 @@ const NavMenu = styled.ul`
 `;
 
 const NavItem = styled.li`
-    height: 80px;
+    display: flex;
+    height: 80px;    
 `;
 
 const NavLinks = styled(Link)`
@@ -120,26 +121,22 @@ transition: all 0.2s ease-in-out;
 `
 
 
-const Navbar = ({ openModal }) => {
+const Navbar = ({ openModal, navLinks }) => {
+    let home = navLinks[0].path
+    let links = navLinks.slice(1)
+
     return (
         <Nav>
             <NavbarContainer>
-                <NavLogo to="/" >
+                <NavLogo to={home} >
                     <Logo />
                     FoodApp
                 </NavLogo>
                 <NavMenu>
                     <NavItem>
-                        <NavLinks to="/restaurants">Restaurants</NavLinks>
-                    </NavItem>
-                    <NavItem>
-                        <NavLinks to="/about">About Us</NavLinks>
-                    </NavItem>
-                    <NavItem>
-                        <NavLinks to="/account">Account</NavLinks>
-                    </NavItem>
-                    <NavItem>
-                        <NavLinks to="/cart">Cart</NavLinks>
+                        {links.map((l, idx) => 
+                            <NavLinks key={idx} to={l.path}>{l.name}</NavLinks>
+                        )}
                     </NavItem>
                 </NavMenu>
                 <SignButtonContainer>

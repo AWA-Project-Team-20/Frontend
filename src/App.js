@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { GlobalStyle } from './GlobalStyles';
 import Navbar from './components/Navbar'
@@ -10,10 +11,43 @@ import RestaurantMenuPage from './pages/restaurantMenu';
 import AboutPage from './pages/about';
 import restaurantService from './services/restaurants'
 import Cart from './pages/cart';
+import ManagerPage from './pages/manager';
+
+const EmptyRoute = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 300px;
+  font-size: 30px;
+  background-color: rgba(255, 0, 0, 0.3);
+  font-weight: 700;
+`;
 
 function App() {
   const [ showModal, setShowModal ] = useState(false)
   const [ restaurants, setRestaurants ] = useState([])
+  const [ navLinks, setNavLinks] = useState([
+    {
+      "path": "/"
+    },
+    {
+      "path": "/restaurants",
+      "name": "Restaurants"
+    },
+    {
+      "path": "/about",
+      "name": "About Us",
+    },
+    {
+      "path": "/account",
+      "name": "Account"
+    },
+    {
+      "path": "/cart",
+      "name": "Cart"
+    }
+  ])
 
   useEffect(() => {
     restaurantService
@@ -24,17 +58,20 @@ function App() {
     .catch(error => console.log(error))
   }, []);
 
+
   return (
     <Router>
       <GlobalStyle />
       <Modal showModal={showModal} setShowModal={setShowModal} />
-      <Navbar openModal={() => setShowModal(!showModal)} />
+      <Navbar openModal={() => setShowModal(!showModal)} navLinks={navLinks} />
       <Routes>
         <Route path="/" element={<HomePage restaurants={restaurants} />} />
         <Route path="/restaurants" element={<RestaurantsPage restaurants={restaurants} />} />
         <Route path="/restaurant/:restaurantId" element={<RestaurantMenuPage restaurants={restaurants} />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/cart" element={<cart />} />
+        <Route path="/manager/restaurant" element={<ManagerPage setNavLinks={setNavLinks} restaurants={restaurants} setRestaurants={setRestaurants} />} />
+        <Route path="*" element={<EmptyRoute>There's nothing to see here!</EmptyRoute>} />
       </Routes>
       <Footer />
     </Router>
