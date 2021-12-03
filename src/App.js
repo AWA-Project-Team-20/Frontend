@@ -10,7 +10,7 @@ import RestaurantsPage from './pages/restaurants';
 import RestaurantMenuPage from './pages/restaurantMenu';
 import AboutPage from './pages/about';
 import restaurantService from './services/restaurants'
-import Cart from './pages/cart';
+import ShoppingCart from './pages/cart';
 import ManagerPage from './pages/manager';
 
 const EmptyRoute = styled.div`
@@ -69,7 +69,7 @@ function App() {
         <Route path="/restaurants" element={<RestaurantsPage restaurants={restaurants} />} />
         <Route path="/restaurant/:restaurantId" element={<RestaurantMenuPage restaurants={restaurants} />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/cart" element={<cart />} />
+        <Route path="/cart" element={<ShoppingCart />} />
         <Route path="/manager/restaurant" element={<ManagerPage setNavLinks={setNavLinks} restaurants={restaurants} setRestaurants={setRestaurants} />} />
         <Route path="*" element={<EmptyRoute>There's nothing to see here!</EmptyRoute>} />
       </Routes>
