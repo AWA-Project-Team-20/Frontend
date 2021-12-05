@@ -50,14 +50,14 @@ const RestaurantsPage = ({ restaurants }) => {
     if(newSearch !== "" || newSort !== "Sort by") {
         if(newSort === "Price: High-Low") {
             let sortedRestaurants = [].concat(restaurants)
-            restaurantsToShow = sortedRestaurants.sort((a, b) => (a.pricelvl < b.pricelvl) ? 1 : -1)
+            restaurantsToShow = sortedRestaurants.sort((a, b) => (a.price_level < b.price_level) ? 1 : -1)
             if(newSearch !== "") {
                 filterBySearch(restaurantsToShow)
             }
         }
         else if(newSort === "Price: Low-High") {
             let sortedRestaurants = [].concat(restaurants)
-            restaurantsToShow = sortedRestaurants.sort((a, b) => (a.pricelvl > b.pricelvl) ? 1 : -1)
+            restaurantsToShow = sortedRestaurants.sort((a, b) => (a.price_level > b.price_level) ? 1 : -1)
             if(newSearch !== "") {
                 filterBySearch(restaurantsToShow)
             }
@@ -83,8 +83,8 @@ const RestaurantsPage = ({ restaurants }) => {
             </FilterContainer>
             <RestaurantsWrapper>
                 {restaurantsToShow.map(r =>
-                    <Restaurant key={r.id} name={r.name} src={r.img} 
-                    alt={r.alt} type={r.type} pricelvl={r.pricelvl} location={r.location} path={r.path} />
+                    <Restaurant key={r.id} id={r.id} name={r.name} location={r.location}
+                    src={r.image_url} operatingHours={r.operating_hours} type={r.type} priceLevel={r.price_level} />
                 )}
             </RestaurantsWrapper>
         </RestaurantsContainer>
