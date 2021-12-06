@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { FaPizzaSlice } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { UserContext } from '../contexts/UserContext'
+import restaurantService from "../services/restaurants"
 
 const Nav = styled.nav`
     display: flex;
@@ -120,17 +122,37 @@ transition: all 0.2s ease-in-out;
 
 `
 
-
-const Navbar = ({ openModal, navLinks }) => {
+const Navbar = ({ openModal, navLinks, setNavLinks }) => {
+    const { user, setUser } = useContext(UserContext)
     let home = navLinks[0].path
     let links = navLinks.slice(1)
+    let navigate = useNavigate()
+
+    const handleLogOut = () => {
+        window.localStorage.removeItem('loggedUser')
+        setUser(null)
+        setNavLinks([
+          {
+            "path": "/"
+          },
+          {
+            "path": "/restaurants",
+            "name": "Restaurants"
+          },
+          {
+            "path": "/about",
+            "name": "About Us"
+          }
+        ])
+        restaurantService.setToken("")
+        navigate("/")
+      }
 
     return (
         <Nav>
             <NavbarContainer>
                 <NavLogo to={home} >
-                    <Logo />
-                    FoodApp
+                    <Logo /> FoodApp
                 </NavLogo>
                 <NavMenu>
                     <NavItem>
@@ -140,12 +162,13 @@ const Navbar = ({ openModal, navLinks }) => {
                     </NavItem>
                 </NavMenu>
                 <SignButtonContainer>
-                    <SignButton onClick={openModal}>Sign In/Up</SignButton>
+                    {user === null
+                        ? <SignButton onClick={openModal} >Sign In/Up</SignButton>
+                        : <SignButton onClick={handleLogOut} >Log Out</SignButton>
+                    }
                 </SignButtonContainer>
-            
-                
             </NavbarContainer>
-    </Nav>
+        </Nav>
     )
 }
 

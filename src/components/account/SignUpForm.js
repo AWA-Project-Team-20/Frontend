@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import Error from "./Error"
 
 const BoxContainer = styled.div`
   display: flex;
@@ -21,16 +22,6 @@ const HeaderContainer = styled.div`
 const Header = styled.h3`
   margin: 0;
   font-size: 28px;
-`;
-
-const Error = styled.div`
-  padding: 10px 60px;
-  border: 2px inset black;
-  border-radius: 10px;
-  background-color: rgba(255, 0, 0, 0.3);
-  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
-  font-size: 20px;
-  font-weight: 700;
 `;
 
 const FormContainer = styled.form`
@@ -154,9 +145,9 @@ const SignUpForm = (props) => {
     <BoxContainer>
       <HeaderContainer>
         <Header>Create an account</Header>
-        {props.error && <Error>{props.error}</Error>}
+        {props.errorMessage && <Error message={props.errorMessage} />}
       </HeaderContainer>
-      <FormContainer onSubmit={props.addNewUser} >
+      <FormContainer onSubmit={props.handleRegister} >
         <CheckboxContainer>
           <Info>Account type:</Info>
             <CheckboxLabel> 

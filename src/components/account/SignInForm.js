@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Error from "./Error"
 
 const BoxContainer = styled.div`
   display: flex;
@@ -101,9 +102,10 @@ const SignInForm = (props) => {
     <BoxContainer>
       <HeaderContainer>
         <Header>Welcome back!</Header>
+        {props.errorMessage && <Error message={props.errorMessage} />}
         <Info>Please sign-in to continue</Info>
       </HeaderContainer>
-      <FormContainer onSubmit={props.login}>
+      <FormContainer onSubmit={props.handleLogin}>
         <TextInput type="email" placeholder="Email" required={true} value={props.email} onChange={(e) => {props.setEmail(e.target.value)}} />
         <TextInput type="password" placeholder="Password" required={true} value={props.password} onChange={(e) => props.setPassword(e.target.value)} />
         <SubmitButton type="submit">Sign In</SubmitButton>
