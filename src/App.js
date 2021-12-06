@@ -32,6 +32,29 @@ function App() {
     }
   ])
 
+  const [cartProducts, setCartProducts] = useState([]);
+  const AddToCart = (product) => {
+  const exist = cartProducts.find(x => x.id === product.id);
+  if(exist) {
+    setCartProducts(cartProducts.map(x => x.id === product.id ? {...exist, qty: exist.qty+1} : x))  
+  } 
+  else {
+    setCartProducts ([...cartProducts, {...product, qty: 1}])
+  }
+  };
+
+  const RemoveFromCart = (product) => {
+    const exist = cartProducts.find((x) => x.id === product.id);
+    if (exist.qty === 1) { 
+      setCartProducts(cartProducts.filter((x) => x.id !== product.id));
+    }
+    else {
+      setCartProducts(
+        cartProducts.map((x) => 
+        x.id === product.id ? {...exist, qty: exist.qty - 1 } : x ) )
+    }
+  }
+
   useEffect(() => {
     restaurantService
     .getAll()
