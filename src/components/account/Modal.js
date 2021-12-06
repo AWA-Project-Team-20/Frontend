@@ -1,9 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MdClose } from 'react-icons/md'
 import { useSpring, animated } from 'react-spring'
 import SignInForm from "./SignInForm";
 import SignUpForm  from "./SignUpForm";
+import { UserContext } from '../../contexts/UserContext'
+import loginService from "../../services/login"
+import registerService from "../../services/register"
+import restaurantService from "../../services/restaurants"
 
 const Background = styled.div`
     display: flex;
@@ -42,14 +47,16 @@ const CloseModalButton = styled(MdClose)`
     height: 32px;
 `;
 
-const Modal = ({ showModal, setShowModal }) => {
+const Modal = ({ showModal, setShowModal, setNavLinks }) => {
     const modalRef = useRef()
     const [ showSignUp, setShowSignUp ] = useState(false)
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
     const [ passwordConfirm, setPasswordConfirm ] = useState('')
     const [ accountType, setAccountType ] = useState('')
-    const [ error, setError ] = useState('')
+    const [ errorMessage, setErrorMessage ] = useState(null)
+    const { setUser } = useContext(UserContext)
+    let navigate = useNavigate()
 
     const animation = useSpring({
         config: {
@@ -72,35 +79,81 @@ const Modal = ({ showModal, setShowModal }) => {
         setPassword('')
         setPasswordConfirm('')
         setAccountType('')
-        setError('')
     }
 
-    const login = (event) => {
+    const handleLogin = async (event) => {
         event.preventDefault()
 
-        const userObject = {
-            email: email,
-            password: password
+        try {
+            const user = await loginService.login({
+                email, password
+            })
+
+            window.localStorage.setItem(
+                'loggedUser', JSON.stringify(user)
+            )
+            restaurantService.setToken(user.token)
+            console.log(user)
+            setUser(user)
+            setNavLinks([
+                {
+                    "path": "/"
+                  },
+                  {
+                    "path": "/restaurants",
+                    "name": "Restaurants"
+                  },
+                  {
+                    "path": "/about",
+                    "name": "About Us",
+                  },
+                  {
+                    "path": "/account",
+                    "name": "Account"
+                  },
+                  {
+                    "path": "/cart",
+                    "name": "Cart"
+                  }
+            ])
+            handleModalClose()
+            if (user.userType === "manager") {
+                navigate("/manager/restaurant")
+            } else {
+                navigate("/")
+            }
+            
+        } catch (err) {
+            setErrorMessage("Invalid username or password!")
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 5000) 
         }
-        console.log(userObject)
-        handleModalClose()
     }
 
-    const addNewUser = (event) => {
+    const handleRegister = async (event) => {
         event.preventDefault()
 
         if(password !== passwordConfirm) {
-            return setError("Passwords do not match!")
+            setErrorMessage("Passwords do not match!")
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 5000)
+            return
         }
 
-        const userObject = {
-            email: email,
-            password: password,
-            passwordConfirm: passwordConfirm,
-            accountType: accountType
+        try {
+            await registerService.register({ email, password, accountType })
+            window.alert(`Account created for the ${accountType}!`)
+            handleModalClose()
+            navigate("/")
+            
+        } catch (err) {
+            setErrorMessage("Email already in use!")
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 5000)  
         }
-        console.log(userObject)
-        handleModalClose()
     }
 
     return (
@@ -111,13 +164,13 @@ const Modal = ({ showModal, setShowModal }) => {
                     <FormContainer>
                         <ModalContent>
                            {showSignUp 
-                           ? <SignUpForm showSignUp={showSignUp} setShowSignUp={setShowSignUp} addNewUser={addNewUser}
+                           ? <SignUpForm showSignUp={showSignUp} setShowSignUp={setShowSignUp} handleRegister={handleRegister}
                                 email={email} setEmail={setEmail} password={password} setPassword={setPassword}
                                 passwordConfirm={passwordConfirm} setPasswordConfirm={setPasswordConfirm} 
-                                setAccountType={setAccountType} error={error}
+                                setAccountType={setAccountType} errorMessage={errorMessage}
                              /> 
-                           : <SignInForm showSignUp={showSignUp} setShowSignUp={setShowSignUp} login={login}
-                                email={email} setEmail={setEmail} password={password} setPassword={setPassword}
+                           : <SignInForm showSignUp={showSignUp} setShowSignUp={setShowSignUp} handleLogin={handleLogin}
+                                email={email} setEmail={setEmail} password={password} setPassword={setPassword} errorMessage={errorMessage}
                              /> 
                             }
                        </ModalContent>
