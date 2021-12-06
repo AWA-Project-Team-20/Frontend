@@ -148,6 +148,7 @@ const Navbar = ({ openModal, navLinks, setNavLinks }) => {
         navigate("/")
       }
 
+    
     return (
         <Nav>
             <NavbarContainer>
@@ -166,7 +167,11 @@ const Navbar = ({ openModal, navLinks, setNavLinks }) => {
                         ? <SignButton onClick={openModal} >Sign In/Up</SignButton>
                         : <SignButton onClick={handleLogOut} >Log Out</SignButton>
                     }
+                
                 </SignButtonContainer>
+                <CartButtonContainer>
+                <a href="/cart" id="CartButton>">Cart</a>
+                </CartButtonContainer>
             </NavbarContainer>
         </Nav>
     )

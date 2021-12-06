@@ -67,7 +67,7 @@ const ProductImage = styled.img`
     }
 `;
 
-const Product = (props) => {
+const {Product, AddToCart} = (props) => {
     return (
         <ProductItem>
             <ProductContent>
@@ -81,6 +81,7 @@ const Product = (props) => {
             <ProductFigure>
                 <ProductImage src={props.img} alt={props.alt}></ProductImage>
             </ProductFigure>
+            <button onClick={() => AddToCart(Product)}>Add to Cart</button>
         </ProductItem>
     )
 }
