@@ -75,13 +75,12 @@ const {Product, AddToCart} = (props) => {
                 <ProductDescription>{props.description}</ProductDescription>
                 <ProductBuyInfo>
                     <ProductPrice>€{props.price}</ProductPrice>
-                    <ShoppingCartLogo />
+                    <ShoppingCartLogo onClick={() => AddToCart(Product)} />
                 </ProductBuyInfo>
             </ProductContent>
             <ProductFigure>
                 <ProductImage src={props.img} alt={props.alt}></ProductImage>
             </ProductFigure>
-            <button onClick={() => AddToCart(Product)}>Add to Cart</button>
         </ProductItem>
     )
 }

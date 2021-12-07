@@ -11,8 +11,8 @@ width: 100%;
 justify-content: center;
 align-items: center;
 font-size: 16px;
-
-bottom: 0px;
+position: fixed;
+bottom: 0;
 font-family: Verdana, Geneva, sans-serif;
 letter-spacing: 1px;
 font-variant: small-caps;

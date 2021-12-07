@@ -169,9 +169,6 @@ const Navbar = ({ openModal, navLinks, setNavLinks }) => {
                     }
                 
                 </SignButtonContainer>
-                <CartButtonContainer>
-                <a href="/cart" id="CartButton>">Cart</a>
-                </CartButtonContainer>
             </NavbarContainer>
         </Nav>
     )

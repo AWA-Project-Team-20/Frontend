@@ -29,13 +29,10 @@ const AboutPage = () => {
                 <p>After six weeks of serious programming, negotiating with restaurant owners and testing, the FoodApp was published.</p>
                 <p></p>
                 <p>And The Heroes behind this project:</p>
-                <p>Aleksi Kalliokoski, Front end developer. <a href="https://github.com/Akllu">Github</a></p>
-                <p>Jussi Sahlström, A very bad front end developer. <a href="https://github.com/jussisahlstrom">Github</a></p>
-                <p>Danila Timoshchenko, Backend magician. <a href="https://github.com/jazzman1825">Github</a> </p>
-                <p>Erik Myllylä, Backend and sleeping. <a href="https://github.com/SMiLY36">Github</a> </p>
-                
-                <img src="https://cdn.discordapp.com/attachments/748180001291108435/905792656100167701/C34A5648-35AC-4116-8676-CAE9868BAD12.jpg" alt="" width="500" height="600"></img>
-                <p>When we had the idea "on the table"..</p>
+                <p>Aleksi Kalliokoski, Full Stack Developer. <a href="https://github.com/Akllu">Github</a></p>
+                <p>Jussi Sahlström, Front end developer. <a href="https://github.com/jussisahlstrom">Github</a></p>
+                <p>Danila Timoshchenko, Backend Developer. <a href="https://github.com/jazzman1825">Github</a> </p>
+                <p>Erik Myllylä <a href="https://github.com/SMiLY36">Github</a> </p>
             </AboutContent>
         </AboutInfoContainer>
     )
