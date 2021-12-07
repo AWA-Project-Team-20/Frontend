@@ -50,7 +50,7 @@ const HomePage = ({ restaurants }) => {
             <Header>Check out these popular restaurants!</Header>
                 <RestaurantsWrapper>
                     {randomRestaurants.map(r =>
-                        <Restaurant key={r.id} name={r.name} location={r.location}
+                        <Restaurant key={r.id} id={r.id} name={r.name} location={r.location}
                         src={r.image_url} operatingHours={r.operating_hours} type={r.type} priceLevel={r.price_level} />
                     )}
                 </RestaurantsWrapper>

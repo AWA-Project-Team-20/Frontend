@@ -1,25 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useParams } from 'react-router'
 import Searchbar from '../components/Searchbar';
 import Filter from '../components/Filter';
 import Category from '../components/Category';
+import productService from "../services/products"
 
 const RestaurantMenuContainer = styled.div`
     display: flex;
     flex-flow: column;
     padding-top: 50px;
     align-items: center;
-`;
-
-const Error = styled.div`
-    padding: 10px 60px;
-    border: 2px inset black;
-    border-radius: 10px;
-    background-color: rgba(255, 0, 0, 0.3);
-    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
-    font-size: 20px;
-    font-weight: 700;
 `;
 
 const FilterContainer = styled.div`
@@ -45,52 +36,65 @@ const MenuWrapper = styled.div`
 `;
 
 
-const RestaurantMenuPage = ({ restaurants }) => {
+const RestaurantMenuPage = () => {
+    const [ products, setProducts ] = useState([])
     const [ newSearch, setNewSearch ] = useState("")
     const [ newSort, setNewSort ] = useState("Sort by")
+    const params = useParams()
     const sortingOptions = []
 
-    const result = useParams()
-    const restaurant = restaurants.find(r => r.id === Number(result.restaurantId))
-    console.log(restaurant)
+    useEffect(() => {
+        productService
+        .getAll(params.restaurantId)
+        .then(initialProducts => {
+            setProducts(initialProducts)
+          })
+        .catch(error => console.log(error))
+    }, [params]);
 
-    const menu = restaurants[0].menu
-    console.log(menu)
+    // Group products by categories
+    const menu = products.reduce((acc, product) => {
+        const categoryIndex = acc.findIndex(item => item.name === product.category)
+        if (categoryIndex > -1) {
+            acc[categoryIndex].products.push(product);
+        } else {
+            acc.push({ name: product.category, products: [product] })
+        };
+        return acc;
+    }, []);
 
     menu.forEach(category => {
         sortingOptions.push(category.name)
-    });
-
-    if(restaurant === undefined) {
-        return ( 
-            <RestaurantMenuContainer>
-                <Error>No matching restaurant found!</Error>
-            </RestaurantMenuContainer>
-        )
-    }
+    })
 
     let productsToShow = menu
 
-    if(newSort !== "Sort by") {
-        productsToShow = menu.filter(c => c.name.includes(newSort))
-    }
-    
-    if(newSearch !== "") {
-        productsToShow = menu.filter(c => c.name.toLowerCase().includes(newSearch.toLowerCase()))
-                                    // || c.products.name.toLowerCase().includes(newSearch.toLowerCase())
-                                    // || c.products.description.toLowerCase().includes(newSearch.toLowerCase()))
+    if (newSearch !== "" || newSort !== "Sort by") {
+        if (newSort !== "Sort by") {
+            productsToShow = menu.filter(c => c.name.includes(newSort))
+            if (newSearch !== "") {
+                productsToShow = menu.filter(c => c.name.toLowerCase().includes(newSearch.toLowerCase()))
+                            // || c.products.name.toLowerCase().includes(newSearch.toLowerCase())
+                            // || c.products.description.toLowerCase().includes(newSearch.toLowerCase()))
+            }
+        }
+        else {
+            productsToShow = menu.filter(c => c.name.toLowerCase().includes(newSearch.toLowerCase()))
+                            // || c.products.name.toLowerCase().includes(newSearch.toLowerCase())
+                            // || c.products.description.toLowerCase().includes(newSearch.toLowerCase()))
+        }
     }
 
     return (
         <RestaurantMenuContainer>
-            <Header>{restaurant.name} menu</Header>
+            <Header>Restaurant Menu</Header>
             <FilterContainer>
                 <Searchbar newSearch={newSearch} setNewSearch={setNewSearch} placeholder={"Search for products"} />
                 <Filter setNewSort={setNewSort} sortingOptions={sortingOptions} />
-            </FilterContainer> 
+            </FilterContainer>         
             <MenuWrapper>
-                {productsToShow.map(c =>
-                    <Category key={c.id} name={c.name} products={c.products} />
+                {productsToShow.map((c, index) => 
+                    <Category key={index} name={c.name} products={c.products}  />
                 )}
             </MenuWrapper>
         </RestaurantMenuContainer>
