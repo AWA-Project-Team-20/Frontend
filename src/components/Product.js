@@ -79,7 +79,7 @@ const Product = (props) => {
                 </ProductBuyInfo>
             </ProductContent>
             <ProductFigure>
-                <ProductImage src={props.img} alt={props.alt}></ProductImage>
+                <ProductImage src={props.src} alt={props.name}></ProductImage>
             </ProductFigure>
         </ProductItem>
     )
