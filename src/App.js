@@ -103,9 +103,9 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage restaurants={restaurants} />} />
           <Route path="/restaurants" element={<RestaurantsPage restaurants={restaurants} />} />
-          <Route path="/restaurant/:restaurantId" element={<RestaurantMenuPage restaurants={restaurants} />} />
+          <Route path="/restaurant/:restaurantId" element={<RestaurantMenuPage restaurants={restaurants} AddToCart={AddToCart}/>} />
           <Route path="/about" element={<AboutPage />} />
-          { user && <Route path="/cart" element={<ShoppingCart />} /> }
+          { user && <Route path="/cart" element={<ShoppingCart AddToCart={AddToCart} RemoveFromCart={RemoveFromCart} cartProducts={cartProducts} setCartProducts={setCartProducts} />} /> }
           { user && <Route path="/manager/restaurant" element={<ManagerPage setNavLinks={setNavLinks} restaurants={restaurants} setRestaurants={setRestaurants} />} /> }
           <Route path="*" element={<EmptyPage /> } />
         </Routes>

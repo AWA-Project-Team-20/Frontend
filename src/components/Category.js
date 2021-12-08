@@ -20,14 +20,14 @@ const ProductWrapper = styled.div`
     flex-wrap: wrap;
 `;
 
-const Category = ({ name, products }) => {
+const Category = ({ name, products, AddToCart }) => {
     return (
         <CategoryContainer>
             <CategoryName>{name}</CategoryName>
             <ProductWrapper>
                 {products.map(p =>
-                    <Product key={p.product_id} name={p.name} description={p.description}
-                    price={p.price} src={p.image_url} />
+                    <Product key={p.product_id} id={p.product_id} name={p.name} description={p.description}
+                    price={p.price} src={p.image_url} AddToCart={AddToCart} />
                 )}
             </ProductWrapper>
         </CategoryContainer>

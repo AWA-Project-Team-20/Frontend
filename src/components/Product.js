@@ -67,7 +67,7 @@ const ProductImage = styled.img`
     }
 `;
 
-const {Product, AddToCart} = (props) => {
+const Product = (props) => {
     return (
         <ProductItem>
             <ProductContent>
@@ -75,7 +75,7 @@ const {Product, AddToCart} = (props) => {
                 <ProductDescription>{props.description}</ProductDescription>
                 <ProductBuyInfo>
                     <ProductPrice>€{props.price}</ProductPrice>
-                    <ShoppingCartLogo onClick={() => AddToCart(Product)} />
+                    <ShoppingCartLogo onClick={()=>props.AddToCart(props)} />
                 </ProductBuyInfo>
             </ProductContent>
             <ProductFigure>

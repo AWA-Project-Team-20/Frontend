@@ -36,7 +36,7 @@ const MenuWrapper = styled.div`
 `;
 
 
-const RestaurantMenuPage = () => {
+const RestaurantMenuPage = ({AddToCart}) => {
     const [ products, setProducts ] = useState([])
     const [ newSearch, setNewSearch ] = useState("")
     const [ newSort, setNewSort ] = useState("Sort by")
@@ -94,7 +94,7 @@ const RestaurantMenuPage = () => {
             </FilterContainer>         
             <MenuWrapper>
                 {productsToShow.map((c, index) => 
-                    <Category key={index} name={c.name} products={c.products}  />
+                    <Category key={index} name={c.name} products={c.products} AddToCart={AddToCart} />
                 )}
             </MenuWrapper>
         </RestaurantMenuContainer>
