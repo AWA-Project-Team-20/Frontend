@@ -19,14 +19,44 @@ line-height: 200%;
 
 `;
 
+const row = styled.div`
+display: flex;
+justify-content: space-between;    
+`;
 
 
-const ShoppingCart = () => {
+
+
+
+
+
+const ShoppingCart = ({AddToCart, RemoveFromCart, cartProducts, setCartProducts}) => {
+
+
     return (
     <CartContainer>
         <CartContent>
-        <p>Your order at the moment:</p>
-
+         <table>
+            <tbody>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+             </tr>
+        {cartProducts.map(p =>
+         <><tr key={p.id}>
+                <td> {p.name} </td>
+                <td> {p.qty}</td>
+                <td> {p.price}</td>
+            </tr>
+            
+                 
+            </>
+            
+            
+            )}
+        </tbody>
+        </table>
         </CartContent>
 
     </CartContainer>
