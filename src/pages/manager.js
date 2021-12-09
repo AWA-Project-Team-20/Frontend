@@ -45,7 +45,7 @@ const ModifyButton = styled.button`
 
 `;
 
-const ManagerPage = ({ setNavLinks, restaurants, setRestaurants }) => {
+const ManagerPage = ({ restaurants, setRestaurants }) => {
     const [ restaurant, setRestaurant ] = useState(null)
     const [ showRestaurantForm, setShowRestaurantForm ] = useState(false)
     const [ showMenuForm, setShowMenuForm ] = useState(false)
@@ -92,7 +92,7 @@ const ManagerPage = ({ setNavLinks, restaurants, setRestaurants }) => {
             {showRestaurantForm && <RestaurantForm restaurants={restaurants} setRestaurants={setRestaurants}
                 setShowRestaurantForm={setShowRestaurantForm} setShowMenuForm={setShowMenuForm} /> 
             }
-            {showMenuForm && <MenuForm setShowMenuForm={setShowMenuForm} /> }
+            {showMenuForm && <MenuForm /> }
         </ManagerPageContainer>
     )
 }
