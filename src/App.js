@@ -110,7 +110,7 @@ function App() {
       <GlobalStyle />
       <UserContext.Provider value={{ user, setUser }}>
         <Modal showModal={showModal} setShowModal={setShowModal} setNavLinks={setNavLinks} setIsConsumer={setIsConsumer} />
-        <Navbar openModal={() => setShowModal(!showModal)} navLinks={navLinks} setNavLinks={setNavLinks} />
+        <Navbar openModal={() => setShowModal(!showModal)} navLinks={navLinks} setNavLinks={setNavLinks} setIsConsumer={setIsConsumer} />
         <Routes>
           <Route path="/" element={<HomePage restaurants={restaurants} />} />
           <Route path="/restaurants" element={<RestaurantsPage restaurants={restaurants} />} />
