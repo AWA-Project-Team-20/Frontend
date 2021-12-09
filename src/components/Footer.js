@@ -22,7 +22,7 @@ font-style: italic;
 const FooterContainer = styled.div`
 display: flex;
 justify-content: center;
-align-items: center;
+text-align: center;
 height: 100px;
 width: 100%;
 max-width: 1200px;

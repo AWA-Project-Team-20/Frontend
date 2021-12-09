@@ -73,6 +73,8 @@ const NavLinks = styled(Link)`
         color: black;
         font-size: 150%;
     }
+
+
 `;
 
 const SignButtonContainer = styled.nav`
