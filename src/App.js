@@ -71,6 +71,9 @@ function App() {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      if(user.userType === "consumer") {
+        setIsConsumer(true)
+    }
       restaurantService.setToken(user.token)
       productService.setToken(user.token)
 
