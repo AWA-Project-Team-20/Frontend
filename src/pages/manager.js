@@ -30,7 +30,7 @@ const ModifyButton = styled.button`
     background: rgb(0, 157, 224);
     white-space: nowrap;
     padding: 15px 0px;
-    margin-top: 5px;
+    margin-top: 10px;
     color: white;
     font-size: 16px;
     font-weight: 700;
@@ -74,9 +74,20 @@ const ManagerPage = ({ restaurants, setRestaurants }) => {
         }
     }, [restaurant])
 
-    const handleModify = () => {
+    const handleModifyRestaurant = () => {
         setHasRestaurant(false)
         setShowRestaurantForm(true)
+    }
+
+    const handleModifyMenu = () => {
+        setHasRestaurant(false)
+        setShowMenuForm(true)
+    }
+
+    const handleCancel = () => {
+        setHasRestaurant(true)
+        setShowRestaurantForm(false)
+        setShowMenuForm(false)
     }
     
     return (
@@ -86,13 +97,14 @@ const ManagerPage = ({ restaurants, setRestaurants }) => {
             <RestaurantContainer> 
                 <Restaurant id={restaurant.id} name={restaurant.name} location={restaurant.location}
                     src={restaurant.image_url} operatingHours={restaurant.operating_hours} type={restaurant.type} priceLevel={restaurant.price_level} /> 
-                <ModifyButton onClick={handleModify} >Modify your restaurant</ModifyButton>
+                <ModifyButton onClick={handleModifyRestaurant} >Modify your restaurant</ModifyButton>
+                <ModifyButton onClick={handleModifyMenu} >Add products or modify your menu</ModifyButton>
             </RestaurantContainer>
             }
             {showRestaurantForm && <RestaurantForm restaurants={restaurants} setRestaurants={setRestaurants}
-                setShowRestaurantForm={setShowRestaurantForm} setShowMenuForm={setShowMenuForm} /> 
+                setShowRestaurantForm={setShowRestaurantForm} setShowMenuForm={setShowMenuForm} handleCancel={handleCancel} /> 
             }
-            {showMenuForm && <MenuForm /> }
+            {showMenuForm && <MenuForm handleCancel={handleCancel} /> }
         </ManagerPageContainer>
     )
 }

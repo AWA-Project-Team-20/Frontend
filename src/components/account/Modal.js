@@ -48,7 +48,7 @@ const CloseModalButton = styled(MdClose)`
     height: 32px;
 `;
 
-const Modal = ({ showModal, setShowModal, setNavLinks }) => {
+const Modal = ({ showModal, setShowModal, setNavLinks, setIsConsumer }) => {
     const modalRef = useRef()
     const [ showSignUp, setShowSignUp ] = useState(false)
     const [ email, setEmail ] = useState('')
@@ -93,55 +93,39 @@ const Modal = ({ showModal, setShowModal, setNavLinks }) => {
             window.localStorage.setItem(
                 'loggedUser', JSON.stringify(user)
             )
+            if(user.userType === "consumer") {
+                setIsConsumer(true)
+            }
             restaurantService.setToken(user.token)
             productService.setToken(user.token)
             console.log(user)
             setUser(user)
-
             handleModalClose()
-            if (user.userType === "manager") {
-                navigate("/manager/restaurant")
-                setNavLinks([
-                    {
-                        "path": "/manager/restaurant"
-                    },
-                    {
-                      "path": "/manager/restaurant",
-                      "name": "My restaurant"
-                    },
-                    {
-                      "path": "/manager/orders",
-                      "name": "Orders"
-                    }
-                ])
-            } else {
-                navigate("/")
-                setNavLinks([
-                    {
-                        "path": "/"
-                      },
-                      {
-                        "path": "/restaurants",
-                        "name": "Restaurants"
-                      },
-                      {
-                        "path": "/about",
-                        "name": "About Us",
-                      },
-                      {
-                        "path": "/account",
-                        "name": "Account"
-                      },
-                      {
-                        "path": "/cart",
-                        "name": "Cart"
-                      },
-                      {
-                        "path": "/manager/restaurant",
-                        "name": "Managers"
-                      }
-                ])
-            }
+            setNavLinks([
+                {
+                  "path": "/"
+                },
+                {
+                  "path": "/restaurants",
+                  "name": "Restaurants"
+                },
+                {
+                  "path": "/about",
+                  "name": "About Us",
+                },
+                {
+                  "path": "/account",
+                  "name": "Account"
+                },
+                {
+                  "path": "/cart",
+                  "name": "Cart"
+                },
+                {
+                  "path": "/manager/restaurant",
+                  "name": "Managers"
+                }
+            ])
             
         } catch (err) {
             setErrorMessage("Invalid username or password!")
