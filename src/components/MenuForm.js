@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
-// import restaurantService from '../services/restaurants'
+import { UserContext } from '../contexts/UserContext';
+import productService from '../services/products'
+import Error from '../components/Error'
 
 const MenuFormContainer = styled.div`
     display: flex;
@@ -122,21 +124,41 @@ const SubmitButton = styled.button`
     }
 `;
 
-const Error = styled.div`
-    padding: 10px 60px;
-    border: 2px inset black;
-    border-radius: 10px;
-    background-color: rgba(255, 0, 0, 0.3);
-    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
-    font-size: 25px;
+const ProductContainer = styled.ul`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 625px;
+`;
+
+const Product = styled.li`
+    font-size: 18px;
+    list-style: none;
+    text-align: center;
+`;
+
+const ProductButton = styled.button`
+    width: 100px;
+    border-radius: 100px;
+    background: rgb(180, 50, 255);
+    white-space: nowrap;
+    padding: 5px 0px;
+    margin-bottom: 20px;
+    color: white;
+    font-size: 15px;
     font-weight: 700;
+    border: none; 
+    cursor: pointer;
+    transition: all, 240ms ease-in-out;
+
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        filter: brightness(1.2);
+    }
 `;
 
-const Products = styled.li`
-
-`;
-
-const MenuForm = ({ setShowMenuForm }) => {
+const MenuForm = () => {
     const [ newCategory, setNewCategory ] = useState("") 
     const [ categories, setCategories ] = useState([])
     const [ categoryName, setCategoryName ] = useState("")
@@ -144,9 +166,18 @@ const MenuForm = ({ setShowMenuForm }) => {
     const [ description, setDescription ] = useState("")
     const [ price, setPrice] = useState("")
     const [ imageURL, setImageURL ] = useState("")
-    const [ showError, setShowError ] = useState(false)
-    const [ showMenu, setShowMenu ] = useState(false)
-    const [ menuProducts, setMenuProducts ] = useState([])
+    const [ errorMessage, setErrorMessage ] = useState(null)
+    const [ products, setProducts ] = useState([])
+    const { user } = useContext(UserContext)
+
+    useEffect(() => {
+        productService
+        .getAll(user.userID)
+        .then(initialProducts => {
+            setProducts(initialProducts)
+          })
+        .catch(error => console.log(error))
+    }, []);
 
     const clearProductForm = () => {
         setProductName("")
@@ -155,11 +186,6 @@ const MenuForm = ({ setShowMenuForm }) => {
         setImageURL("")
         setCategoryName("")
         setCategories([])
-    }
-
-    const clearMenu = () => {
-        setMenuProducts([])
-        setShowMenu(false)
     }
 
     const addCategory = (e) => {
@@ -171,70 +197,91 @@ const MenuForm = ({ setShowMenuForm }) => {
         }
     }
 
-    const addProduct = (e) => {
+    const handleProductAdd = (e) => {
         e.preventDefault()
 
         if(categoryName === "") {
-            setShowError(true)
+            setErrorMessage("Product is missing a category!")
             setTimeout(() => {
-                setShowError(false)
-            }, 5000)
+                setErrorMessage(null)
+            }, 5000) 
             return
         }
         
         const newProduct = {
+            restaurant_id: user.userID,
             category: categoryName,
             name: productName,
             description: description,
             price: price,
-            img: imageURL,
-            alt: productName
+            image_url: imageURL
         }
-        
-        setProductName("")
-        setDescription("")
-        setPrice("")
-        setImageURL("")
-        setMenuProducts(menuProducts.concat(newProduct))
-        setShowMenu(true)
+
+        productService
+        .create(newProduct)
+        .then(returnedProduct => {
+            setProducts(products.concat(returnedProduct))
+            setProductName("")
+            setDescription("")
+            setPrice("")
+            setImageURL("")
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
 
-    const addMenu = (e) => {
-        e.preventDefault()
-        setShowMenuForm(false)
-        console.log(menuProducts)
+    const handleProductEdit = (product) => {
+        console.log(product)
+        if (categoryName === "" || productName === "" || description === ""
+        || price === "" || imageURL === "") {
+            setErrorMessage("Something is missing!")
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 5000) 
+            return
+        }
 
-        // const menu = menuProducts.reduce((menu, product) => {
-        //     const category = product.category
-        //     if (menu[category] == null) menu[category] = []
-        //     menu[category].push(product)
-        //     return menu
-        // }, [])
+        const newProduct = {
+            product_id: product.product_id,
+            category: categoryName,
+            name: productName,
+            description: description,
+            price: price,
+            image_url: imageURL
+        }
 
-        // console.log(menu)
-        
 
-        // restaurantService
-        // .create(newRestaurant)
-        // .then(returnedRestaurant => {
-        //     setRestaurants(restaurants.concat(returnedRestaurant))
-        //     clearForm()
-        //     setShowForm(false)
-        // })
-        // .catch(err => console.log(err))
+        productService
+        .update(newProduct)
+        .then(returnedProduct => {
+            setProducts(products.map(p => p.product_id !== product.product_id ? p : returnedProduct))
+            setProductName("")
+            setDescription("")
+            setPrice("")
+            setImageURL("")
+        })
+        .catch(err => {
+            console.log(err)
+            setErrorMessage("You are unauthorized!")
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 5000) 
+        })
     }
+
 
     return (
         <MenuFormContainer>
-            <Info>Fill out the form to add your menu!</Info>
+            <Info>Fill out the form to add products!</Info>
             <FormContainer onSubmit={addCategory}>
                 <Info>Add new category:</Info>
                 <TextInput type="text" placeholder="Category name" required={true} value={newCategory} onChange={(e) => setNewCategory(e.target.value)} />
                 <SubmitButton type="submit" >Add category</SubmitButton>
             </FormContainer>
-            <FormContainer onSubmit={addProduct} >
+            <FormContainer onSubmit={handleProductAdd} >
                 <Info>Add products to your menu:</Info>
-                {showError && <Error>Product is missing a category!</Error>}
+                {errorMessage && <Error message={errorMessage} />}
                 <DropdownContainer>
                     <DropdownWrapper>
                         <DropdownLabel>Product category:</DropdownLabel>
@@ -251,20 +298,18 @@ const MenuForm = ({ setShowMenuForm }) => {
                 <TextInput type="text" placeholder="Restaurant image (URL)" required={true} value={imageURL} onChange={(e) => setImageURL(e.target.value)} />
                 <ButtonContainer>
                     <ClearButton type="reset" onClick={clearProductForm} >Clear form</ClearButton>
-                    <SubmitButton type="submit" >Add product</SubmitButton>
+                    <SubmitButton type="submit">Add product</SubmitButton>
                 </ButtonContainer>
             </FormContainer>
-            {showMenu && <FormContainer onSubmit={addMenu}>
-                <Info>Your menu:</Info>
-                {menuProducts.map((p, idx) => 
-                    <Products key={idx}>{p.category} - {p.name}</Products>
+            <ProductContainer>
+                <Info>Your products:</Info>
+                {products.map(p =>
+                <div key={p.product_id}>
+                    <Product  >{p.name}</Product>                    
+                    <ProductButton onClick={() => handleProductEdit(p)}>Edit</ProductButton>
+                </div>
                 )}
-                <ButtonContainer>
-                    <ClearButton type="reset" onClick={clearMenu} >Clear menu</ClearButton>
-                    <SubmitButton type="submit" >Add this menu</SubmitButton>
-                </ButtonContainer>
-            </FormContainer>
-            }
+            </ProductContainer>
         </MenuFormContainer>
     )
 }

@@ -8,11 +8,12 @@ import HomePage from './pages/home';
 import RestaurantsPage from './pages/restaurants';
 import RestaurantMenuPage from './pages/restaurantMenu';
 import AboutPage from './pages/about';
-import restaurantService from './services/restaurants'
 import ShoppingCart from './pages/cart';
 import ManagerPage from './pages/manager';
 import EmptyPage from './pages/empty';
 import { UserContext } from './contexts/UserContext';
+import restaurantService from './services/restaurants'
+import productService from './services/products'
 
 function App() {
   const [ showModal, setShowModal ] = useState(false)
@@ -70,6 +71,7 @@ function App() {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       restaurantService.setToken(user.token)
+      productService.setToken(user.token)
 
       if (user.userType === "manager") {
         setNavLinks([

@@ -4,6 +4,7 @@ import { FaPizzaSlice } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from '../contexts/UserContext'
 import restaurantService from "../services/restaurants"
+import productService from "../services/products"
 
 const Nav = styled.nav`
     display: flex;
@@ -147,6 +148,7 @@ const Navbar = ({ openModal, navLinks, setNavLinks }) => {
           }
         ])
         restaurantService.setToken("")
+        productService.setToken("")
         navigate("/")
       }
 

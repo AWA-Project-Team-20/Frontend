@@ -9,6 +9,7 @@ import { UserContext } from '../../contexts/UserContext'
 import loginService from "../../services/login"
 import registerService from "../../services/register"
 import restaurantService from "../../services/restaurants"
+import productService from "../../services/products"
 
 const Background = styled.div`
     display: flex;
@@ -93,6 +94,7 @@ const Modal = ({ showModal, setShowModal, setNavLinks }) => {
                 'loggedUser', JSON.stringify(user)
             )
             restaurantService.setToken(user.token)
+            productService.setToken(user.token)
             console.log(user)
             setUser(user)
 
