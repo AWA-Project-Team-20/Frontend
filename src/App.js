@@ -70,27 +70,48 @@ function App() {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       restaurantService.setToken(user.token)
-      setNavLinks([
-        {
-            "path": "/"
-          },
-          {
-            "path": "/restaurants",
-            "name": "Restaurants"
-          },
-          {
-            "path": "/about",
-            "name": "About Us",
-          },
-          {
-            "path": "/account",
-            "name": "Account"
-          },
-          {
-            "path": "/cart",
-            "name": "Cart"
-          }
-    ])
+
+      if (user.userType === "manager") {
+        setNavLinks([
+            {
+                "path": "/manager/restaurant"
+            },
+            {
+              "path": "/manager/restaurant",
+              "name": "My restaurant"
+            },
+            {
+              "path": "/manager/orders",
+              "name": "Orders"
+            }
+        ])
+      } else {
+        setNavLinks([
+            {
+                "path": "/"
+              },
+              {
+                "path": "/restaurants",
+                "name": "Restaurants"
+              },
+              {
+                "path": "/about",
+                "name": "About Us",
+              },
+              {
+                "path": "/account",
+                "name": "Account"
+              },
+              {
+                "path": "/cart",
+                "name": "Cart"
+              },
+              {
+                "path": "/manager/restaurant",
+                "name": "Managers"
+              }
+        ])
+      }
     }
   }, [])
 

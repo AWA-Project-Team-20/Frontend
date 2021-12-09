@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import styled from 'styled-components';
+import restaurantService from '../services/restaurants'
+import Error from '../components/Error'
+import { UserContext } from '../contexts/UserContext';
 
 const FormContainer = styled.form`
     display: flex;
@@ -146,7 +149,7 @@ const SubmitButton = styled.button`
     }
 `;
 
-const RestaurantForm = ({ setShowRestaurantForm, setShowMenuForm }) => {
+const RestaurantForm = ({ restaurants, setRestaurants, setShowRestaurantForm, setShowMenuForm }) => {
     const [ name, setName ] = useState("")
     const [ location, setLocation ] = useState("")
     const [ imageURL, setImageURL ] = useState("")
@@ -154,6 +157,8 @@ const RestaurantForm = ({ setShowRestaurantForm, setShowMenuForm }) => {
     const [ operatingHours2, setOperatingHours2 ] = useState("")
     const [ type, setType ] = useState("Buffet")
     const [ priceLevel, setPriceLevel ] = useState("€")
+    const [ errorMessage, setErrorMessage ] = useState(null)
+    const { user } = useContext(UserContext)
 
     const typeOptions = ["Buffet", "Fast food", "Fast casual", "Casual dining", "Fine dining"]
     const pricelvlOptions = ["€", "€€", "€€€", "€€€€"]
@@ -179,24 +184,27 @@ const RestaurantForm = ({ setShowRestaurantForm, setShowMenuForm }) => {
             pricelvl: priceLevel
         }
 
-        console.log(newRestaurant)
-        clearForm()
-        setShowRestaurantForm(false)
-        setShowMenuForm(true)
-
-        // restaurantService
-        // .create(newRestaurant)
-        // .then(returnedRestaurant => {
-        //     setRestaurants(restaurants.concat(returnedRestaurant))
-        //     clearForm()
-        //     setShowForm(false)
-        // })
-        // .catch(err => console.log(err))
+        restaurantService
+        .update(newRestaurant)
+        .then(returnedRestaurant => {
+            setRestaurants(restaurants.map(r => r.id !== user.userID ? r : returnedRestaurant))
+            clearForm()
+            setShowRestaurantForm(false)
+            setShowMenuForm(true)
+        })
+        .catch(err => {
+            console.log(err)
+            setErrorMessage("You are unauthorized!")
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 5000) 
+        })
     }
 
     return (
         <FormContainer onSubmit={handleSubmit} >
             <Info>Fill out the form and reach new customers!</Info>
+            {errorMessage && <Error message={errorMessage} />}
             <TextInput type="text" placeholder="Restaurant name" required={true} value={name} onChange={(e) => setName(e.target.value)} />
             <TextInput type="text" placeholder="Location" required={true} value={location} onChange={(e) => setLocation(e.target.value)} />
             <TextInput type="text" placeholder="Restaurant image (URL)" required={true} value={imageURL} onChange={(e) => setImageURL(e.target.value)} />

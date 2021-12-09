@@ -95,32 +95,50 @@ const Modal = ({ showModal, setShowModal, setNavLinks }) => {
             restaurantService.setToken(user.token)
             console.log(user)
             setUser(user)
-            setNavLinks([
-                {
-                    "path": "/"
-                  },
-                  {
-                    "path": "/restaurants",
-                    "name": "Restaurants"
-                  },
-                  {
-                    "path": "/about",
-                    "name": "About Us",
-                  },
-                  {
-                    "path": "/account",
-                    "name": "Account"
-                  },
-                  {
-                    "path": "/cart",
-                    "name": "Cart"
-                  }
-            ])
+
             handleModalClose()
             if (user.userType === "manager") {
                 navigate("/manager/restaurant")
+                setNavLinks([
+                    {
+                        "path": "/manager/restaurant"
+                    },
+                    {
+                      "path": "/manager/restaurant",
+                      "name": "My restaurant"
+                    },
+                    {
+                      "path": "/manager/orders",
+                      "name": "Orders"
+                    }
+                ])
             } else {
                 navigate("/")
+                setNavLinks([
+                    {
+                        "path": "/"
+                      },
+                      {
+                        "path": "/restaurants",
+                        "name": "Restaurants"
+                      },
+                      {
+                        "path": "/about",
+                        "name": "About Us",
+                      },
+                      {
+                        "path": "/account",
+                        "name": "Account"
+                      },
+                      {
+                        "path": "/cart",
+                        "name": "Cart"
+                      },
+                      {
+                        "path": "/manager/restaurant",
+                        "name": "Managers"
+                      }
+                ])
             }
             
         } catch (err) {
