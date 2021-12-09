@@ -27,7 +27,7 @@ const ProductName = styled.div`
 const ProductDescription = styled.div`
     width: 280px;
     text-align: center;
-    color: darkgray;
+    color: #474343;
     padding: 10px;
     font-size: 14px;
 `;
@@ -46,10 +46,20 @@ const ProductBuyInfo = styled.div`
 const ProductPrice = styled.div`
     width: 50%;
     margin-left: 5px;
+    color: black;
 `;
 
 const ShoppingCartLogo = styled(MdAddShoppingCart)`
     cursor: pointer;
+    color: black;
+
+
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        color: black;
+        font-size: 150%;
+    }
+    
 `;
 
 const ProductFigure = styled.figure`
