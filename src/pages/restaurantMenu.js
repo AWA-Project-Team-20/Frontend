@@ -11,6 +11,7 @@ const RestaurantMenuContainer = styled.div`
     flex-flow: column;
     padding-top: 50px;
     align-items: center;
+    min-height: 100vh;
 `;
 
 const FilterContainer = styled.div`

@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components'
 
-
-
 const CartContainer = styled.div`
-display: flex;
-justify-content: center;
-text-align: center;
-width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    min-height: 100vh;
 `;
 
 const Header = styled.h1`
@@ -18,13 +17,12 @@ const Header = styled.h1`
 `;
 
 const CartContent = styled.div`
-font-family: 'Muli', sans-serif;
-font-variant: small-caps;
-font-style: italic;
-font-size: 22px;
-color: black;
-line-height: 200%;
-
+    font-family: 'Muli', sans-serif;
+    font-variant: small-caps;
+    font-style: italic;
+    font-size: 22px;
+    color: black;
+    line-height: 200%;
 `;
 
 const ProductImage = styled.img`
@@ -43,35 +41,26 @@ const DecreaseQty = styled.button`
 `;
 
 const TableHeader = styled.th`
-padding: 15px;
+    padding: 15px;
 `;
 
 const bottomRow = styled.div`
-justify-items: flex-start;
+    justify-items: flex-start;
 `;
 
 const orderButton = styled.button`
-font-family: 'Muli', sans-serif;
-font-variant: small-caps;
-font-style: italic;
-font-size: 22px;
-color: black;
-border: 1px solid black;
-
-
+    font-family: 'Muli', sans-serif;
+    font-variant: small-caps;
+    font-style: italic;
+    font-size: 22px;
+    color: black;
+    border: 1px solid black;
 `;
-
-
-
-
-
 
 const ShoppingCart = ({AddToCart, RemoveFromCart, cartProducts, setCartProducts, isConsumer}) => {
 
  const totalPrice = cartProducts.reduce((a, c) => a + c.qty * c.price, 0);
   
-
-
     return (
     <CartContainer>
         {isConsumer ?
