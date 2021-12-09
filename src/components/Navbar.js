@@ -125,7 +125,7 @@ transition: all 0.2s ease-in-out;
 
 `
 
-const Navbar = ({ openModal, navLinks, setNavLinks }) => {
+const Navbar = ({ openModal, navLinks, setNavLinks, setIsConsumer }) => {
     const { user, setUser } = useContext(UserContext)
     let home = navLinks[0].path
     let links = navLinks.slice(1)
@@ -134,6 +134,7 @@ const Navbar = ({ openModal, navLinks, setNavLinks }) => {
     const handleLogOut = () => {
         window.localStorage.removeItem('loggedUser')
         setUser(null)
+        setIsConsumer(false)
         setNavLinks([
           {
             "path": "/"
