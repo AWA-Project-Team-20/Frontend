@@ -7,6 +7,7 @@ const RestaurantsContainer = styled.div`
     flex-flow: column;
     padding-top: 50px;
     align-items: center;
+    min-height: 100vh;
 `;
 
 const Header = styled.h1`

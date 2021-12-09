@@ -10,6 +10,7 @@ const EmptyRoute = styled.div`
   font-size: 30px;
   background-color: rgba(255, 0, 0, 0.3);
   font-weight: 700;
+  min-height: 100vh;
 `;
 
 const EmptyPage = () => {

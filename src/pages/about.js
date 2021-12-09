@@ -2,20 +2,20 @@ import React from 'react'
 import styled from 'styled-components'
 
 const AboutInfoContainer = styled.div`
-display: flex;
-justify-content: center;
-text-align: center;
-width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    min-height: 100vh;
 `;
 
 const AboutContent = styled.div`
-font-family: 'Muli', sans-serif;
-letter-spacing: 1px;
-font-variant: small-caps;
-font-style: italic;
-font-size: 20px;
-line-height: 200%;
-
+    font-family: 'Muli', sans-serif;
+    letter-spacing: 1px;
+    font-variant: small-caps;
+    font-style: italic;
+    font-size: 20px;
+    line-height: 200%;
 `;
 
 const AboutPage = () => {
