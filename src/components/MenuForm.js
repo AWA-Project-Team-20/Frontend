@@ -130,12 +130,12 @@ const ProductContainer = styled.ul`
     justify-content: center;
     align-items: center;
     width: 625px;
+    text-align: center;
 `;
 
 const Product = styled.li`
     font-size: 18px;
     list-style: none;
-    text-align: center;
 `;
 
 const ProductButton = styled.button`
@@ -158,7 +158,27 @@ const ProductButton = styled.button`
     }
 `;
 
-const MenuForm = () => {
+const CancelButton = styled.button`
+    width: 625px;
+    border-radius: 100px;
+    background: rgb(100, 200, 200);
+    white-space: nowrap;
+    padding: 15px 0px;
+    margin-top: 15px;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    border: none; 
+    cursor: pointer;
+    transition: all, 240ms ease-in-out;
+
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        filter: brightness(1.2);
+    }
+`;
+
+const MenuForm = ({ handleCancel }) => {
     const [ newCategory, setNewCategory ] = useState("") 
     const [ categories, setCategories ] = useState([])
     const [ categoryName, setCategoryName ] = useState("")
@@ -300,6 +320,7 @@ const MenuForm = () => {
                     <ClearButton type="reset" onClick={clearProductForm} >Clear form</ClearButton>
                     <SubmitButton type="submit">Add product</SubmitButton>
                 </ButtonContainer>
+                <CancelButton onClick={handleCancel}>Cancel editing</CancelButton>
             </FormContainer>
             <ProductContainer>
                 <Info>Your products:</Info>

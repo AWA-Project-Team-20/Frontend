@@ -149,7 +149,27 @@ const SubmitButton = styled.button`
     }
 `;
 
-const RestaurantForm = ({ restaurants, setRestaurants, setShowRestaurantForm, setShowMenuForm }) => {
+const CancelButton = styled.button`
+    width: 625px;
+    border-radius: 100px;
+    background: rgb(100, 200, 200);
+    white-space: nowrap;
+    padding: 15px 0px;
+    margin-top: 15px;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    border: none; 
+    cursor: pointer;
+    transition: all, 240ms ease-in-out;
+
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        filter: brightness(1.2);
+    }
+`;
+
+const RestaurantForm = ({ restaurants, setRestaurants, setShowRestaurantForm, setShowMenuForm, handleCancel }) => {
     const [ name, setName ] = useState("")
     const [ location, setLocation ] = useState("")
     const [ imageURL, setImageURL ] = useState("")
@@ -237,6 +257,7 @@ const RestaurantForm = ({ restaurants, setRestaurants, setShowRestaurantForm, se
                 <ClearButton type="reset" onClick={clearForm} >Clear form</ClearButton>
                 <SubmitButton type="submit" >Create a restaurant</SubmitButton>
             </ButtonContainer>
+            <CancelButton onClick={handleCancel}>Cancel editing</CancelButton>
         </FormContainer>
     )
 }

@@ -18,6 +18,7 @@ import productService from './services/products'
 function App() {
   const [ showModal, setShowModal ] = useState(false)
   const [ restaurants, setRestaurants ] = useState([])
+  const [ isConsumer, setIsConsumer ] = useState(false)
   const [ user, setUser ] = useState(null)
   const [ navLinks, setNavLinks] = useState([
     {
@@ -73,47 +74,31 @@ function App() {
       restaurantService.setToken(user.token)
       productService.setToken(user.token)
 
-      if (user.userType === "manager") {
-        setNavLinks([
-            {
-                "path": "/manager/restaurant"
-            },
-            {
-              "path": "/manager/restaurant",
-              "name": "My restaurant"
-            },
-            {
-              "path": "/manager/orders",
-              "name": "Orders"
-            }
-        ])
-      } else {
-        setNavLinks([
-            {
-                "path": "/"
-              },
-              {
-                "path": "/restaurants",
-                "name": "Restaurants"
-              },
-              {
-                "path": "/about",
-                "name": "About Us",
-              },
-              {
-                "path": "/account",
-                "name": "Account"
-              },
-              {
-                "path": "/cart",
-                "name": "Cart"
-              },
-              {
-                "path": "/manager/restaurant",
-                "name": "Managers"
-              }
-        ])
-      }
+      setNavLinks([
+        {
+          "path": "/"
+        },
+        {
+          "path": "/restaurants",
+          "name": "Restaurants"
+        },
+        {
+          "path": "/about",
+          "name": "About Us",
+        },
+        {
+          "path": "/account",
+          "name": "Account"
+        },
+        {
+          "path": "/cart",
+          "name": "Cart"
+        },
+        {
+          "path": "/manager/restaurant",
+          "name": "Managers"
+        }
+      ])
     }
   }, [])
 
@@ -121,14 +106,14 @@ function App() {
     <Router>
       <GlobalStyle />
       <UserContext.Provider value={{ user, setUser }}>
-        <Modal showModal={showModal} setShowModal={setShowModal} setNavLinks={setNavLinks} />
+        <Modal showModal={showModal} setShowModal={setShowModal} setNavLinks={setNavLinks} setIsConsumer={setIsConsumer} />
         <Navbar openModal={() => setShowModal(!showModal)} navLinks={navLinks} setNavLinks={setNavLinks} />
         <Routes>
           <Route path="/" element={<HomePage restaurants={restaurants} />} />
           <Route path="/restaurants" element={<RestaurantsPage restaurants={restaurants} />} />
           <Route path="/restaurant/:restaurantId" element={<RestaurantMenuPage restaurants={restaurants} AddToCart={AddToCart}/>} />
           <Route path="/about" element={<AboutPage />} />
-          { user && <Route path="/cart" element={<ShoppingCart AddToCart={AddToCart} RemoveFromCart={RemoveFromCart} cartProducts={cartProducts} setCartProducts={setCartProducts} />} /> }
+          { user && <Route path="/cart" element={<ShoppingCart AddToCart={AddToCart} RemoveFromCart={RemoveFromCart} cartProducts={cartProducts} setCartProducts={setCartProducts} isConsumer={isConsumer} />} /> }
           { user && <Route path="/manager/restaurant" element={<ManagerPage setNavLinks={setNavLinks} restaurants={restaurants} setRestaurants={setRestaurants} />} /> }
           <Route path="*" element={<EmptyPage /> } />
         </Routes>
