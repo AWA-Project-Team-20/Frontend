@@ -12,6 +12,11 @@ const getAll = () => {
     return req.then(res => res.data);
 }
 
+const getOne = (id) => {
+    const req = axios.get(`${baseUrl}/${id}`);
+    return req.then(res => res.data);
+}
+
 const create = async (newObject) => {
     const config = { headers: { Authorization: token } }
 
@@ -19,9 +24,11 @@ const create = async (newObject) => {
     return res.data;
 }
 
-const update = (id, newObject) => {
-    const req = axios.put(`${baseUrl}/${id}`)
-    return req.then(res => res.data);
+const update = async (newObject) => {
+    const config = { headers: { Authorization: token } }
+
+    const res = await axios.put(`http://localhost:4000/manager/restaurant`, newObject, config)
+    return res.data;
 }
 
 const remove = (id) => {
@@ -29,6 +36,6 @@ const remove = (id) => {
     return req.then(res => res.data);
 }
 
-const methods = { getAll, create, update, remove, setToken }
+const methods = { getAll, getOne, create, update, remove, setToken }
 
 export default methods 
