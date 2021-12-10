@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from '../contexts/UserContext'
 import restaurantService from "../services/restaurants"
 import productService from "../services/products"
+import orderService from "../services/orders"
 
 const Nav = styled.nav`
     display: flex;
@@ -150,6 +151,7 @@ const Navbar = ({ openModal, navLinks, setNavLinks, setIsConsumer }) => {
         ])
         restaurantService.setToken("")
         productService.setToken("")
+        orderService.setToken("")
         navigate("/")
       }
 

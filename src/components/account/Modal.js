@@ -10,6 +10,7 @@ import loginService from "../../services/login"
 import registerService from "../../services/register"
 import restaurantService from "../../services/restaurants"
 import productService from "../../services/products"
+import orderService from "../../services/orders"
 
 const Background = styled.div`
     display: flex;
@@ -98,6 +99,7 @@ const Modal = ({ showModal, setShowModal, setNavLinks, setIsConsumer }) => {
             }
             restaurantService.setToken(user.token)
             productService.setToken(user.token)
+            orderService.setToken(user.token)
             console.log(user)
             setUser(user)
             handleModalClose()

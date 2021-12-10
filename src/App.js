@@ -11,9 +11,11 @@ import AboutPage from './pages/about';
 import ShoppingCart from './pages/cart';
 import ManagerPage from './pages/manager';
 import EmptyPage from './pages/empty';
+import AccountPage from './pages/account';
 import { UserContext } from './contexts/UserContext';
 import restaurantService from './services/restaurants'
 import productService from './services/products'
+import orderService from './services/orders'
 
 function App() {
   const [ showModal, setShowModal ] = useState(false)
@@ -76,6 +78,7 @@ function App() {
     }
       restaurantService.setToken(user.token)
       productService.setToken(user.token)
+      orderService.setToken(user.token)
 
       setNavLinks([
         {
@@ -116,6 +119,7 @@ function App() {
           <Route path="/restaurants" element={<RestaurantsPage restaurants={restaurants} />} />
           <Route path="/restaurant/:restaurantId" element={<RestaurantMenuPage restaurants={restaurants} AddToCart={AddToCart}/>} />
           <Route path="/about" element={<AboutPage />} />
+          { user && <Route path="/account" element={<AccountPage />} /> }
           { user && <Route path="/cart" element={<ShoppingCart AddToCart={AddToCart} RemoveFromCart={RemoveFromCart} cartProducts={cartProducts} setCartProducts={setCartProducts} isConsumer={isConsumer} />} /> }
           { user && <Route path="/manager/restaurant" element={<ManagerPage setNavLinks={setNavLinks} restaurants={restaurants} setRestaurants={setRestaurants} />} /> }
           <Route path="*" element={<EmptyPage /> } />

@@ -197,7 +197,7 @@ const MenuForm = ({ handleCancel }) => {
             setProducts(initialProducts)
           })
         .catch(error => console.log(error))
-    }, []);
+    }, [user]);
 
     const clearProductForm = () => {
         setProductName("")
