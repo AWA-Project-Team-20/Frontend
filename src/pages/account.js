@@ -141,11 +141,11 @@ const AccountPage = () => {
 
     let ordersInProgress = []
     let completedOrders = []
-    orders.filter(o => o.status !== "Delivered" ? ordersInProgress.push(o) : completedOrders.push(o));
+    orders.filter(o => o.order_status !== "Delivered" ? ordersInProgress.push(o) : completedOrders.push(o));
 
     // Customer confirms that the order has been delivered
     const handleDelivered = (order) => {
-        const orderObject = { order_id: order.order_id, status: "Delivered"}
+        const orderObject = { order_id: order.order_id, order_status: "Delivered"}
 
         orderService
         .update(orderObject)
@@ -159,7 +159,7 @@ const AccountPage = () => {
     }
 
     const handleStatusChange = (order) => {
-        const orderObject = { order_id: order.order_id, status: status}
+        const orderObject = { order_id: order.order_id, order_status: status}
 
         orderService
         .update(orderObject)
@@ -194,7 +194,7 @@ const AccountPage = () => {
             <OrderContainer>
                 {ordersInProgress.map(o =>
                     <OrderContent key={o.order_id} >
-                        <Order>{o.order_id} {o.delivery_address} {o.status} {o.total}</Order>
+                        <Order>Status: {o.order_status} {o.order_time} {o.order_address}  {o.order_price}€</Order>
                         <Button onClick={() => handleDetails(o)}>Show details</Button>
                         {isAdmin &&
                             <Dropdown value={status} onChange={(e) => setStatus(e.target.value)}>
@@ -214,7 +214,7 @@ const AccountPage = () => {
                 <OrderContainer>
                     <HistoryHeader>Order details:</HistoryHeader>
                     {orderDetails.map((d, index) => 
-                        <div key={index}>{d.name} </div>    
+                        <div key={index}>{d.order_name} </div>    
                     )}
                 </OrderContainer>
             }
@@ -222,7 +222,7 @@ const AccountPage = () => {
             <OrderContainer>
                 {completedOrders.map(o =>
                     <OrderContent key={o.order_id} >
-                        <Order>{o.delivery_address} {o.date} {o.total}</Order>
+                        <Order>{o.order_time} {o.order_address} {o.order_price}€ </Order>
                         <Button onClick={() => handleDetails(o)} disabled={disableButton} >Show details</Button>
                     </OrderContent>   
                 )}

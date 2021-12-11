@@ -26,8 +26,8 @@ const Category = ({ name, products, AddToCart }) => {
             <CategoryName>{name}</CategoryName>
             <ProductWrapper>
                 {products.map(p =>
-                    <Product key={p.product_id} id={p.product_id} name={p.name} description={p.description}
-                    price={p.price} src={p.image_url} AddToCart={AddToCart} />
+                    <Product key={p.product_id} id={p.product_id} name={p.product_name} description={p.product_description}
+                    price={p.product_price} src={p.product_image} AddToCart={AddToCart} />
                 )}
             </ProductWrapper>
         </CategoryContainer>

@@ -41,18 +41,18 @@ const HomePage = ({ restaurants }) => {
     }
 
     let idsOfRestaurants = []
-    restaurants.forEach(r => idsOfRestaurants.push(r.id))
+    restaurants.forEach(r => idsOfRestaurants.push(r.restaurant_id))
     let randomIds = shuffle(idsOfRestaurants)
     randomIds.splice(5, idsOfRestaurants.length - 6)
-    let randomRestaurants = restaurants.filter(r => randomIds.includes(r.id))
+    let randomRestaurants = restaurants.filter(r => randomIds.includes(r.restaurant_id))
 
     return (
         <RestaurantsContainer>
             <Header>Check out these popular restaurants!</Header>
                 <RestaurantsWrapper>
                     {randomRestaurants.map(r =>
-                        <Restaurant key={r.id} id={r.id} name={r.name} location={r.location}
-                        src={r.image_url} operatingHours={r.operating_hours} type={r.type} priceLevel={r.price_level} />
+                        <Restaurant key={r.restaurant_id} id={r.restaurant_id} name={r.restaurant_name} location={r.restaurant_location}
+                        src={r.restaurant_image} operatingHours={r.operating_hours} type={r.restaurant_type} priceLevel={r.restaurant_pricelvl} />
                     )}
                 </RestaurantsWrapper>
         </RestaurantsContainer>   

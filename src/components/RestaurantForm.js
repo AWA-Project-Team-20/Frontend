@@ -196,18 +196,18 @@ const RestaurantForm = ({ restaurants, setRestaurants, setShowRestaurantForm, se
     const handleSubmit = (e) => {
         e.preventDefault()
         const newRestaurant = {
-            name: name,
-            location: location,
-            img: imageURL,
+            restaurant_name: name,
+            restaurant_location: location,
+            restaurant_image: imageURL,
             operatingHours: `${operatingHours} – ${operatingHours2}`,
-            type: type,
-            pricelvl: priceLevel
+            restaurant_type: type,
+            restaurant_pricelvl: priceLevel
         }
 
         restaurantService
         .update(newRestaurant)
         .then(returnedRestaurant => {
-            setRestaurants(restaurants.map(r => r.id !== user.userID ? r : returnedRestaurant))
+            setRestaurants(restaurants.map(r => r.restaurant_id !== user.userID ? r : returnedRestaurant))
             clearForm()
             setShowRestaurantForm(false)
             setShowMenuForm(true)

@@ -44,28 +44,28 @@ const RestaurantsPage = ({ restaurants }) => {
     let restaurantsToShow = restaurants
 
     const filterBySearch = (currentRestaurants) => {
-        restaurantsToShow = currentRestaurants.filter(r => r.name.toLowerCase().includes(newSearch.toLowerCase())
-                                            || r.location.toLowerCase().includes(newSearch.toLowerCase()))
+        restaurantsToShow = currentRestaurants.filter(r => r.restaurant_name.toLowerCase().includes(newSearch.toLowerCase())
+                                            || r.restaurant_location.toLowerCase().includes(newSearch.toLowerCase()))
     }
     
     if(newSearch !== "" || newSort !== "Sort by") {
         if(newSort === "Price: High-Low") {
             let sortedRestaurants = [].concat(restaurants)
-            restaurantsToShow = sortedRestaurants.sort((a, b) => (a.price_level < b.price_level) ? 1 : -1)
+            restaurantsToShow = sortedRestaurants.sort((a, b) => (a.restaurant_pricelvl < b.restaurant_pricelvl) ? 1 : -1)
             if(newSearch !== "") {
                 filterBySearch(restaurantsToShow)
             }
         }
         else if(newSort === "Price: Low-High") {
             let sortedRestaurants = [].concat(restaurants)
-            restaurantsToShow = sortedRestaurants.sort((a, b) => (a.price_level > b.price_level) ? 1 : -1)
+            restaurantsToShow = sortedRestaurants.sort((a, b) => (a.restaurant_pricelvl > b.restaurant_pricelvl) ? 1 : -1)
             if(newSearch !== "") {
                 filterBySearch(restaurantsToShow)
             }
         }
         else if(newSort === "Type: Buffet" || newSort === "Type: Fast food" ||newSort === "Type: Fast casual"
         || newSort === "Type: Casual dining" || newSort === "Type: Fine dining") {
-            restaurantsToShow = restaurants.filter(r => r.type.includes(newSort.slice(6)))
+            restaurantsToShow = restaurants.filter(r => r.restaurant_type.includes(newSort.slice(6)))
             if(newSearch !== "") {
                 filterBySearch(restaurantsToShow)
             }
@@ -84,8 +84,8 @@ const RestaurantsPage = ({ restaurants }) => {
             </FilterContainer>
             <RestaurantsWrapper>
                 {restaurantsToShow.map(r =>
-                    <Restaurant key={r.id} id={r.id} name={r.name} location={r.location}
-                    src={r.image_url} operatingHours={r.operating_hours} type={r.type} priceLevel={r.price_level} />
+                    <Restaurant key={r.restaurant_id} id={r.restaurant_id} name={r.restaurant_name} location={r.restaurant_location}
+                    src={r.restaurant_image} operatingHours={r.operating_hours} type={r.restaurant_type} priceLevel={r.restaurant_pricelvl} />
                 )}
             </RestaurantsWrapper>
         </RestaurantsContainer>

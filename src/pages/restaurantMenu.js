@@ -37,7 +37,7 @@ const MenuWrapper = styled.div`
 `;
 
 
-const RestaurantMenuPage = ({AddToCart}) => {
+const RestaurantMenuPage = ({ restaurants, AddToCart}) => {
     const [ products, setProducts ] = useState([])
     const [ newSearch, setNewSearch ] = useState("")
     const [ newSort, setNewSort ] = useState("Sort by")
@@ -55,11 +55,11 @@ const RestaurantMenuPage = ({AddToCart}) => {
 
     // Group products by categories
     const menu = products.reduce((acc, product) => {
-        const categoryIndex = acc.findIndex(item => item.name === product.category)
+        const categoryIndex = acc.findIndex(item => item.name === product.product_category)
         if (categoryIndex > -1) {
             acc[categoryIndex].products.push(product);
         } else {
-            acc.push({ name: product.category, products: [product] })
+            acc.push({ name: product.product_category, products: [product] })
         };
         return acc;
     }, []);
@@ -85,10 +85,10 @@ const RestaurantMenuPage = ({AddToCart}) => {
                             // || c.products.description.toLowerCase().includes(newSearch.toLowerCase()))
         }
     }
-
+    
     return (
         <RestaurantMenuContainer>
-            <Header>Restaurant Menu</Header>
+            <Header>Menu</Header>
             <FilterContainer>
                 <Searchbar newSearch={newSearch} setNewSearch={setNewSearch} placeholder={"Search for products"} />
                 <Filter setNewSort={setNewSort} sortingOptions={sortingOptions} />

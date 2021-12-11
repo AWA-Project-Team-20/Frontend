@@ -67,10 +67,10 @@ const ManagerPage = ({ restaurants, setRestaurants }) => {
     }, [user]);
 
     useEffect(() => {
-        if (restaurant && restaurant.name == null) {
+        if (restaurant && restaurant.restaurant_name == null) {
             setShowRestaurantForm(true)
         }
-        if (restaurant && restaurant.name != null) {
+        if (restaurant && restaurant.restaurant_name != null) {
             setHasRestaurant(true)
         }
     }, [restaurant])
@@ -96,8 +96,8 @@ const ManagerPage = ({ restaurants, setRestaurants }) => {
             {isAdmin ? <Header>Hello manager!</Header> : <Header>Please login as a manager!</Header> }
             {isAdmin && hasRestaurant && 
             <RestaurantContainer> 
-                <Restaurant id={restaurant.id} name={restaurant.name} location={restaurant.location}
-                    src={restaurant.image_url} operatingHours={restaurant.operating_hours} type={restaurant.type} priceLevel={restaurant.price_level} /> 
+                <Restaurant id={restaurant.restaurant_id} name={restaurant.restaurant_name} location={restaurant.restaurant_location}
+                    src={restaurant.restaurant_image} operatingHours={restaurant.operating_hours} type={restaurant.restaurant_type} priceLevel={restaurant.restaurant_pricelvl} /> 
                 <ModifyButton onClick={handleModifyRestaurant} >Modify your restaurant</ModifyButton>
                 <ModifyButton onClick={handleModifyMenu} >Add products or modify your menu</ModifyButton>
             </RestaurantContainer>

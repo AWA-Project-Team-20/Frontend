@@ -230,11 +230,11 @@ const MenuForm = ({ handleCancel }) => {
         
         const newProduct = {
             restaurant_id: user.userID,
-            category: categoryName,
-            name: productName,
-            description: description,
-            price: price,
-            image_url: imageURL
+            product_category: categoryName,
+            product_name: productName,
+            product_description: description,
+            product_price: price,
+            product_image: imageURL
         }
 
         productService
@@ -264,11 +264,11 @@ const MenuForm = ({ handleCancel }) => {
 
         const newProduct = {
             product_id: product.product_id,
-            category: categoryName,
-            name: productName,
-            description: description,
-            price: price,
-            image_url: imageURL
+            product_category: categoryName,
+            product_name: productName,
+            product_description: description,
+            product_price: price,
+            product_image: imageURL
         }
 
 
@@ -326,7 +326,7 @@ const MenuForm = ({ handleCancel }) => {
                 <Info>Your products:</Info>
                 {products.map(p =>
                 <div key={p.product_id}>
-                    <Product  >{p.name}</Product>                    
+                    <Product  >{p.product_name}</Product>                    
                     <ProductButton onClick={() => handleProductEdit(p)}>Edit</ProductButton>
                 </div>
                 )}
