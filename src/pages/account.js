@@ -68,8 +68,8 @@ const Button = styled.button`
     }
 `;
 
-const DeliveredButton = styled.button`
-    width: 280px;
+const StatusButton = styled.button`
+    width: 250px;
     border-radius: 100px;
     background: rgb(0, 200, 200);
     white-space: nowrap;
@@ -99,32 +99,53 @@ const Message = styled.div`
     margin-bottom: 20px;
 `;
 
+const Dropdown = styled.select`
+    width: 200px;
+    height: 45px;
+    padding: 10px 10px;
+    border-radius: 10px;
+    border: 2px inset black;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 5px;
+`;
+
+const DropdownItem = styled.option`
+
+`;
+
 const AccountPage = () => {
     const [ orders, setOrders ] = useState([])
     const [ showDetails, setShowDetails ] = useState(false)
     const [ orderDetails, setOrderDetails ] = useState([])
     const [ disableButton, setDisableButton ] = useState(false)
     const [ message, setMessage ] = useState(null)
+    const [ isAdmin, setIsAdmin ] = useState(false)
+    const [ status, setStatus ] = useState("Preparing")
     const { user } = useContext(UserContext)
+
+    const statusOptions = ["Preparing", "Ready for delivery", "Delivering"]
 
     useEffect(() => {
         orderService
         .getAll()
         .then(initialOrders => {
-            console.log(initialOrders)
           setOrders(initialOrders)
+          if (user && user.userType === "manager") {
+            setIsAdmin(true)
+        }
         })
         .catch(error => console.log(error))
-    }, []);
-
-    console.log(orders)
+    }, [user]);
 
     let ordersInProgress = []
     let completedOrders = []
     orders.filter(o => o.status !== "Delivered" ? ordersInProgress.push(o) : completedOrders.push(o));
 
+    // Customer confirms that the order has been delivered
     const handleDelivered = (order) => {
-        const orderObject = { order_id: order.order_id}
+        const orderObject = { order_id: order.order_id, status: "Delivered"}
 
         orderService
         .update(orderObject)
@@ -137,6 +158,21 @@ const AccountPage = () => {
         })
     }
 
+    const handleStatusChange = (order) => {
+        const orderObject = { order_id: order.order_id, status: status}
+
+        orderService
+        .update(orderObject)
+        .then(returnedOrder => {
+            setMessage("Order status changed!")
+            setTimeout(() => {
+                setMessage(null)
+            }, 5000);
+            setOrders(orders.map(o => o.order_id !== returnedOrder.order_id ? o : returnedOrder))
+        })
+    }
+
+    // Customer or Manager wants to check the products of a specific order
     const handleDetails = (order) => {
         setShowDetails(!showDetails)
 
@@ -150,7 +186,7 @@ const AccountPage = () => {
             })
         }
     }
-    
+
     return (
         <AccountPageContainer>
             <CurrentOrderHeader>Orders in progress</CurrentOrderHeader>
@@ -160,7 +196,17 @@ const AccountPage = () => {
                     <OrderContent key={o.order_id} >
                         <Order>{o.order_id} {o.delivery_address} {o.status} {o.total}</Order>
                         <Button onClick={() => handleDetails(o)}>Show details</Button>
-                        <DeliveredButton onClick={() => handleDelivered(o)} >Click to mark the order as delivered</DeliveredButton>
+                        {isAdmin &&
+                            <Dropdown value={status} onChange={(e) => setStatus(e.target.value)}>
+                                {statusOptions.map((o, idx) =>
+                                    <DropdownItem key={idx} value={o} >{o}</DropdownItem>    
+                                )}
+                            </Dropdown>
+                        }
+                        {!isAdmin 
+                        ? <StatusButton onClick={() => handleDelivered(o)} >Confirm the order as delivered</StatusButton>
+                        : <StatusButton onClick={() => handleStatusChange(o)} >Change the status of this order</StatusButton>
+                        }
                     </OrderContent>  
                 )}
             </OrderContainer>
