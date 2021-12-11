@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import { useParams } from 'react-router'
 import Searchbar from '../components/Searchbar';
 import Filter from '../components/Filter';
-import Category from '../components/Category';
+import Product from '../components/Product';
 import productService from "../services/products"
+import restaurantService from "../services/restaurants"
 
 const RestaurantMenuContainer = styled.div`
     display: flex;
@@ -36,11 +37,29 @@ const MenuWrapper = styled.div`
     margin-bottom: 50px;
 `;
 
+const CategoryContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 10px;
+`;
 
-const RestaurantMenuPage = ({ restaurants, AddToCart}) => {
+const CategoryName = styled.h3`
+    font-size: 30px;
+`;
+
+const ProductWrapper = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`;
+
+const RestaurantMenuPage = ({ AddToCart }) => {
     const [ products, setProducts ] = useState([])
     const [ newSearch, setNewSearch ] = useState("")
     const [ newSort, setNewSort ] = useState("Sort by")
+    const [ currentRestaurant, setCurrentRestaurant ] = useState(null)
     const params = useParams()
     const sortingOptions = []
 
@@ -50,8 +69,17 @@ const RestaurantMenuPage = ({ restaurants, AddToCart}) => {
         .then(initialProducts => {
             setProducts(initialProducts)
           })
-        .catch(error => console.log(error))
+        .catch(err => console.error(err))
     }, [params]);
+
+    useEffect(() => {
+        restaurantService
+        .getOne(params.restaurantId)
+        .then(initialRestaurant => {
+            setCurrentRestaurant(initialRestaurant.restaurant_name)
+        })
+        .catch(err => console.error(err))
+    }, [params])
 
     // Group products by categories
     const menu = products.reduce((acc, product) => {
@@ -64,42 +92,48 @@ const RestaurantMenuPage = ({ restaurants, AddToCart}) => {
         return acc;
     }, []);
 
+    let categoriesToShow = menu
+
+    // Add each category to sorting options
     menu.forEach(category => {
         sortingOptions.push(category.name)
     })
 
-    let productsToShow = menu
-
+    // Sort categories
     if (newSearch !== "" || newSort !== "Sort by") {
         if (newSort !== "Sort by") {
-            productsToShow = menu.filter(c => c.name.includes(newSort))
-            if (newSearch !== "") {
-                productsToShow = menu.filter(c => c.name.toLowerCase().includes(newSearch.toLowerCase()))
-                            // || c.products.name.toLowerCase().includes(newSearch.toLowerCase())
-                            // || c.products.description.toLowerCase().includes(newSearch.toLowerCase()))
-            }
+            categoriesToShow = menu.filter(c => c.name.includes(newSort))
         }
         else {
-            productsToShow = menu.filter(c => c.name.toLowerCase().includes(newSearch.toLowerCase()))
-                            // || c.products.name.toLowerCase().includes(newSearch.toLowerCase())
-                            // || c.products.description.toLowerCase().includes(newSearch.toLowerCase()))
+            categoriesToShow = menu.filter(c => c.name.toLowerCase().includes(newSearch.toLowerCase()))
         }
     }
     
     return (
         <RestaurantMenuContainer>
-            <Header>Menu</Header>
+            <Header>{currentRestaurant} menu</Header>
             <FilterContainer>
                 <Searchbar newSearch={newSearch} setNewSearch={setNewSearch} placeholder={"Search for products"} />
                 <Filter setNewSort={setNewSort} sortingOptions={sortingOptions} />
             </FilterContainer>         
             <MenuWrapper>
-                {productsToShow.map((c, index) => 
-                    <Category key={index} name={c.name} products={c.products} AddToCart={AddToCart} />
+                {categoriesToShow.map((c, index) => 
+                    <CategoryContainer key={index}>
+                        <CategoryName>{c.name}</CategoryName>
+                        <ProductWrapper>
+                            {categoriesToShow[index].products.map((p, index) => 
+                                <Product key={index} name={p.product_name} description={p.product_description}
+                                price={p.product_price} src={p.product_image} AddToCart={AddToCart} /> 
+                            )}
+                        </ProductWrapper>
+                    </CategoryContainer>
                 )}
-            </MenuWrapper>
+            </MenuWrapper> 
         </RestaurantMenuContainer>
     )
 }
+
+
+
 
 export default RestaurantMenuPage
