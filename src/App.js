@@ -22,6 +22,7 @@ function App() {
   const [ restaurants, setRestaurants ] = useState([])
   const [ isConsumer, setIsConsumer ] = useState(false)
   const [ user, setUser ] = useState(null)
+  const [cartProducts, setCartProducts] = useState([]);
   const [ navLinks, setNavLinks] = useState([
     {
       "path": "/"
@@ -35,29 +36,6 @@ function App() {
       "name": "About Us"
     }
   ])
-
-  const [cartProducts, setCartProducts] = useState([]);
-  const AddToCart = (product) => {
-  const exist = cartProducts.find(x => x.id === product.id);
-  if(exist) {
-    setCartProducts(cartProducts.map(x => x.id === product.id ? {...exist, qty: exist.qty+1} : x))  
-  } 
-  else {
-    setCartProducts ([...cartProducts, {...product, qty: 1}])
-  }
-  };
-
-  const RemoveFromCart = (product) => {
-    const exist = cartProducts.find((x) => x.id === product.id);
-    if (exist.qty === 1) { 
-      setCartProducts(cartProducts.filter((x) => x.id !== product.id));
-    }
-    else {
-      setCartProducts(
-        cartProducts.map((x) => 
-        x.id === product.id ? {...exist, qty: exist.qty - 1 } : x ) )
-    }
-  }
 
   useEffect(() => {
     restaurantService
@@ -108,12 +86,34 @@ function App() {
     }
   }, [])
 
+  const AddToCart = (product) => {
+    const exist = cartProducts.find(x => x.product_id === product.product_id);
+    if(exist) {
+      setCartProducts(cartProducts.map(x => x.product_id === product.product_id ? {...exist, qty: exist.qty+1} : x))  
+    } 
+    else {
+      setCartProducts ([...cartProducts, {...product, qty: 1}])
+    }
+    };
+  
+    const RemoveFromCart = (product) => {
+      const exist = cartProducts.find((x) => x.product_id === product.product_id);
+      if (exist.qty === 1) { 
+        setCartProducts(cartProducts.filter((x) => x.product_id !== product.product_id));
+      }
+      else {
+        setCartProducts(
+          cartProducts.map((x) => 
+          x.product_id === product.product_id ? {...exist, qty: exist.qty - 1 } : x ) )
+      }
+    }
+
   return (
     <Router>
       <GlobalStyle />
       <UserContext.Provider value={{ user, setUser }}>
         <Modal showModal={showModal} setShowModal={setShowModal} setNavLinks={setNavLinks} setIsConsumer={setIsConsumer} />
-        <Navbar openModal={() => setShowModal(!showModal)} navLinks={navLinks} setNavLinks={setNavLinks} setIsConsumer={setIsConsumer} />
+        <Navbar openModal={() => setShowModal(!showModal)} navLinks={navLinks} setNavLinks={setNavLinks} setIsConsumer={setIsConsumer} setCartProducts={setCartProducts} />
         <Routes>
           <Route path="/" element={<HomePage restaurants={restaurants} />} />
           <Route path="/restaurants" element={<RestaurantsPage restaurants={restaurants} />} />
