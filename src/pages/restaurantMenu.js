@@ -123,7 +123,7 @@ const RestaurantMenuPage = ({ AddToCart }) => {
                         <ProductWrapper>
                             {categoriesToShow[index].products.map((p, index) => 
                                 <Product key={index} name={p.product_name} description={p.product_description}
-                                price={p.product_price} src={p.product_image} AddToCart={AddToCart} /> 
+                                price={p.product_price} src={p.product_image} AddToCart={AddToCart} product_id={p.product_id} restaurant_id={p.restaurant_id} /> 
                             )}
                         </ProductWrapper>
                     </CategoryContainer>

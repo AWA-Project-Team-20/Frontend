@@ -26,6 +26,14 @@ const create = async (newObject) => {
     return res.data;
 }
 
+const sendDetails = async (newObject) => {
+    const config = { headers: { Authorization: token } }
+    const url = 'http://localhost:4000/orders/details'
+
+    const res = await axios.post(url, newObject, config);
+    return res.data;
+}
+
 const update = async (newObject) => {
     const config = { headers: { Authorization: token } }
 
@@ -33,6 +41,6 @@ const update = async (newObject) => {
     return res.data;
 }
 
-const methods = { getAll, getDetails, create, update, setToken }
+const methods = { getAll, getDetails, create, sendDetails, update, setToken }
 
 export default methods
