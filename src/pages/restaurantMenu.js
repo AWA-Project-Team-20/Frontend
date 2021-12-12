@@ -55,7 +55,19 @@ const ProductWrapper = styled.div`
     flex-wrap: wrap;
 `;
 
-const RestaurantMenuPage = ({ AddToCart }) => {
+const Message = styled.div`
+    padding: 10px 60px;
+    border: 1px inset black;
+    border-radius: 10px;
+    background-color: rgba(0, 100, 100, 0.3);
+    box-shadow: 0 6px 20px rgba(, 255, 0, 0.3);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    margin-top: 30px;
+`;
+
+const RestaurantMenuPage = ({ AddToCart, message }) => {
     const [ products, setProducts ] = useState([])
     const [ newSearch, setNewSearch ] = useState("")
     const [ newSort, setNewSort ] = useState("Sort by")
@@ -113,9 +125,10 @@ const RestaurantMenuPage = ({ AddToCart }) => {
         <RestaurantMenuContainer>
             <Header>{currentRestaurant} menu</Header>
             <FilterContainer>
-                <Searchbar newSearch={newSearch} setNewSearch={setNewSearch} placeholder={"Search for products"} />
+                <Searchbar newSearch={newSearch} setNewSearch={setNewSearch} placeholder={"Search for categories"} />
                 <Filter setNewSort={setNewSort} sortingOptions={sortingOptions} />
-            </FilterContainer>         
+            </FilterContainer>
+            {message && <Message>{message}</Message> }         
             <MenuWrapper>
                 {categoriesToShow.map((c, index) => 
                     <CategoryContainer key={index}>

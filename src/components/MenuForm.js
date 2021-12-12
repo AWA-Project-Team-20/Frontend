@@ -220,11 +220,19 @@ const MenuForm = ({ handleCancel }) => {
     const handleProductAdd = (e) => {
         e.preventDefault()
 
-        if(categoryName === "") {
+        if (categoryName === "") {
             setErrorMessage("Product is missing a category!")
             setTimeout(() => {
                 setErrorMessage(null)
             }, 5000) 
+            return
+        }
+
+        if (imageURL.length > 250) {
+            setErrorMessage("Image URL too long!")
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 5000)
             return
         }
         
@@ -259,6 +267,14 @@ const MenuForm = ({ handleCancel }) => {
             setTimeout(() => {
                 setErrorMessage(null)
             }, 5000) 
+            return
+        }
+
+        if (imageURL.length > 250) {
+            setErrorMessage("Image URL too long!")
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 5000)
             return
         }
 

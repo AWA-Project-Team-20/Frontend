@@ -22,7 +22,8 @@ function App() {
   const [ restaurants, setRestaurants ] = useState([])
   const [ isConsumer, setIsConsumer ] = useState(false)
   const [ user, setUser ] = useState(null)
-  const [cartProducts, setCartProducts] = useState([]);
+  const [ cartProducts, setCartProducts ] = useState([]);
+  const [ message, setMessage ] = useState(null)
   const [ navLinks, setNavLinks] = useState([
     {
       "path": "/"
@@ -87,6 +88,18 @@ function App() {
   }, [])
 
   const AddToCart = (product) => {
+    if (!user) {
+      setMessage("Please log in to add products to cart!")
+      setTimeout(() => {
+        setMessage(null)
+      }, 3000)
+      return
+    }
+
+    setMessage("Product added to cart!")
+    setTimeout(() => {
+      setMessage(null)
+    }, 3000)
     const exist = cartProducts.find(x => x.product_id === product.product_id);
     if(exist) {
       setCartProducts(cartProducts.map(x => x.product_id === product.product_id ? {...exist, qty: exist.qty+1} : x))  
@@ -117,7 +130,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage restaurants={restaurants} />} />
           <Route path="/restaurants" element={<RestaurantsPage restaurants={restaurants} />} />
-          <Route path="/restaurant/:restaurantId" element={<RestaurantMenuPage AddToCart={AddToCart}/>} />
+          <Route path="/restaurant/:restaurantId" element={<RestaurantMenuPage AddToCart={AddToCart} message={message} />} />
           <Route path="/about" element={<AboutPage />} />
           { user && <Route path="/account" element={<AccountPage />} /> }
           { user && <Route path="/cart" element={<ShoppingCart AddToCart={AddToCart} RemoveFromCart={RemoveFromCart} cartProducts={cartProducts} setCartProducts={setCartProducts} isConsumer={isConsumer} />} /> }

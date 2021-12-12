@@ -195,6 +195,15 @@ const RestaurantForm = ({ restaurants, setRestaurants, setShowRestaurantForm, se
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
+        if (imageURL.length > 250) {
+            setErrorMessage("Image URL too long!")
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 5000)
+            return
+        }
+
         const newRestaurant = {
             restaurant_name: name,
             restaurant_location: location,
