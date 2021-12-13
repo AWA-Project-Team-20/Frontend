@@ -226,7 +226,7 @@ const AccountPage = () => {
             <OrderContainer>
                 {ordersInProgress.map(o =>
                     <OrderContent key={o.order_id} >
-                        <Order><b>Status:</b> {o.order_status} <p><b>Estimated time of completion:</b> {o.order_etc} min</p> <p>{o.order_address}</p> <p>{o.order_price}€</p></Order>
+                        <Order><b>Status:</b> {o.order_status} <p><b>Estimated time of completion:</b> {o.order_etc} min</p> <p>{o.order_address}</p> <p>{o.order_price}$</p></Order>
                         {showButton && <Button onClick={() => handleDetails(o)}>Show details</Button> }
                         {isAdmin &&
                             <div>
@@ -253,7 +253,7 @@ const AccountPage = () => {
                 <OrderContainer>
                     <HistoryHeader>Order details:</HistoryHeader>
                     {orderDetails.map((d, index) => 
-                        <li key={index}>{d.product_name} {d.product_price}€ </li>  
+                        <li key={index}>{d.product_name} {d.product_price}$ </li>  
                     )}
                     <CloseButton onClick={handleDetailClose} >Close details</CloseButton>
                 </OrderContainer>
@@ -262,7 +262,7 @@ const AccountPage = () => {
             <OrderContainer>
                 {completedOrders.map(o =>
                     <OrderContent key={o.order_id} >
-                        <Order><b>{o.order_time}</b> <p>{o.order_address}</p> <p>{o.order_price}€</p> </Order>
+                        <Order><b>{o.order_time}</b> <p>{o.order_address}</p> <p>{o.order_price}$</p> </Order>
                         {showButton && <Button onClick={() => handleDetails(o)} >Show details</Button> }
                     </OrderContent>   
                 )}
