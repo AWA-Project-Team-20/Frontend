@@ -1,6 +1,6 @@
 # Advanced Web Application Project Team 20
 
-The topic of this project was to create a food ordering application similar to Wolt of Foodora, but only for web browsers.
+The topic of this project was to create a food ordering application similar to Wolt or Foodora, but only for web browsers.
 
 The application is fully implemented with working client and backend applications. The application has two types of users:
 - Consumer user
@@ -10,6 +10,9 @@ A consumer user is a restaurant customer who wants to order food from a restaura
 can create a restaurant to the system, operate the restaurant, create a restaurant menu and manage food orders from consumer users.
 
 https://pern-foodapp-deploy.herokuapp.com/
+
+![App](https://user-images.githubusercontent.com/73988745/145995033-a209b80b-d004-4e28-9c97-a04cc0b4d0bc.png)
+
 
 # Responsibilities
 
