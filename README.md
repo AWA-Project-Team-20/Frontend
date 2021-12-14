@@ -1,3 +1,57 @@
+# Advanced Web Application Project Team 20
+
+The topic of this project was to create a food ordering application similar to Wolt of Foodora, but only for web browsers.
+
+The application is fully implemented with working client and backend applications. The application has two types of users:
+- Consumer user
+- Restaurant operator/manager
+
+A consumer user is a restaurant customer who wants to order food from a restaurant. Restaurant manager is a user who
+can create a restaurant to the system, operate the restaurant, create a restaurant menu and manage food orders from consumer users.
+
+# Responsibilities
+
+## Aleksi Kalliokoski
+### Frontend
+### Components
+Modal, SignInForm, SignUpForm, Error, Filter, MenuForm, Navbar, Product, Restaurant, RestaurantForm, Searchbar.
+### Contexts
+### Pages
+Account, empty, home, manager, restaurantMenu, restaurants.
+### Services
+Login, orders, products, register, restaurants.
+
+### Backend
+### Routes
+Login, Register (Authentication).
+### Middlewares
+Authorization.
+### Other
+Deployment to Heroku.
+
+## Danila Timoshchenko
+### Backend
+### Routes
+Managers, orders, products, restaurants.
+### Database
+Database structure and implementation.
+### Other
+Backend application file, deployment to Heroku.
+
+## Jussi Sahlström
+### Frontend
+### Components
+Footer.
+### Pages
+About, Cart.
+### Other
+Testing and documentation.
+
+## Erik Myllylä
+### Other
+Testing and documentation.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
