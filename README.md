@@ -9,6 +9,8 @@ The application is fully implemented with working client and backend application
 A consumer user is a restaurant customer who wants to order food from a restaurant. Restaurant manager is a user who
 can create a restaurant to the system, operate the restaurant, create a restaurant menu and manage food orders from consumer users.
 
+https://pern-foodapp-deploy.herokuapp.com/
+
 # Responsibilities
 
 ## Aleksi Kalliokoski
